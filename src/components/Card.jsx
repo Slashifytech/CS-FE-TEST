@@ -64,7 +64,22 @@ const Card = ({
   const openUnblockPopup = () => {
     setIsUnblockOpen(true);
   };
-
+   
+                if (item.additionalDetails && item.additionalDetails.height) {
+                  item.additionalDetails.height = convertToFeetInches(item.additionalDetails.height);
+                }
+              
+                if (item.partnerPreference && item.partnerPreference.length > 0) {
+                  const partnerPref = item.partnerPreference[0];
+              
+                  if (partnerPref.heightRangeStart) {
+                    partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
+                  }
+              
+                  if (partnerPref.heightRangeEnd) {
+                    partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
+                  }
+                }
   const closeUnblock = () => {
     setIsUnblockOpen(false);
   };

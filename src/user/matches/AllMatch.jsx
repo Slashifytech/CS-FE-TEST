@@ -44,22 +44,7 @@ const AllMatch = () => {
         const response = await apiurl.get(`/getUserPre/${userId}`, {
           params: partnerDetails,
         });
-        const newMatchData = response.data.users;
-                if (newMatchData.additionalDetails && newMatchData.additionalDetails.height) {
-                  newMatchData.additionalDetails.height = convertToFeetInches(newMatchData.additionalDetails.height);
-                }
-              
-                if (newMatchData.partnerPreference && newMatchData.partnerPreference.length > 0) {
-                  const partnerPref = newMatchData.partnerPreference[0];
-              
-                  if (partnerPref.heightRangeStart) {
-                    partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
-                  }
-              
-                  if (partnerPref.heightRangeEnd) {
-                    partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
-                  }
-                }
+     
         setMatchData(newMatchData);
         setTotalUsersCount(response.data.totalUsersCount);
         setTotalPagesCount(response.data.lastPage);
