@@ -13,7 +13,7 @@ import apiurl from "../../util";
 import { Autocomplete, TextField } from "@mui/material";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common";
+import { convertFeetInchesToInches, convertToFeetInches, convertToFeetInchesDecimal } from "../../common/common";
 const minDistance = 3;
 function valuetext(value) {
   return `${value}°C`;
@@ -415,6 +415,19 @@ const BasicPartnerEdit = () => {
     try {
       const formData = await getFormData(userId, 6);
       const partnerPreference = formData.partnerPreference;
+              
+            
+              if (partnerPreference) {
+                const partnerPref = partnerPreference;
+            
+                if (partnerPref.heightRangeStart) {
+                  partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
+                }
+            
+                if (partnerPref.heightRangeEnd) {
+                  partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
+                }
+              }
       setBasicDetails(partnerPreference);
       setBasicData(partnerPreference);
       const parseStringToArray = (str) => {
@@ -567,7 +580,25 @@ const BasicPartnerEdit = () => {
                     getAriaValueText={valuetext}
                     disableSwap
                   />
-                </div>
+                </div>setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
+setBasicDetails
                 <div className=" mb-2 mt-5">
                   <label className="font-semibold mt-2 "> Height Range</label>
                   <HeightSlider
