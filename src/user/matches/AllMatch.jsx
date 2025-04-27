@@ -44,7 +44,8 @@ const AllMatch = () => {
         const response = await apiurl.get(`/getUserPre/${userId}`, {
           params: partnerDetails,
         });
-     
+        const newMatchData = response.data.users;
+
         setMatchData(newMatchData);
         setTotalUsersCount(response.data.totalUsersCount);
         setTotalPagesCount(response.data.lastPage);
