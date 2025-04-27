@@ -18,6 +18,7 @@ import ImagePopup from "../user/PopUps/ImageView";
 import { RiSpam2Line } from "react-icons/ri";
 import SpamPopUp from "./../user/PopUps/SpamPopUp";
 import ThankYouPop from "../user/PopUps/ThankYouPop";
+import { convertToFeetInches } from "../common/common";
 
 const Card = ({
   UserDataM,
