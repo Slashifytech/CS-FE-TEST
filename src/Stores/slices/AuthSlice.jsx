@@ -65,7 +65,25 @@ export const decodeCookieAndFetchUserData = () => async (dispatch) => {
       try {
         const response = await apiurl.get(`/auth/getUser/${userId}`);
         const userData = response?.data?.user;
-    
+        if (userData.additionalDetails && userData.additionalDetails.height) {
+          const heightInFeet = (userData.additionalDetails.height / 12).toFixed(1);
+          userData.additionalDetails.height = parseFloat(heightInFeet);
+        }
+      
+        if (userData.partnerPreference && userData.partnerPreference.length > 0) {
+          const partnerPref = userData.partnerPreference[0]; 
+
+      
+          if (partnerPref.heightRangeStart) {
+            const startFeet = (partnerPref.heightRangeStart / 12).toFixed(1);
+            partnerPref.heightRangeStart = parseFloat(startFeet);
+          }
+      
+          if (partnerPref.heightRangeEnd) {
+            const endFeet = (partnerPref.heightRangeEnd / 12).toFixed(1);
+            partnerPref.heightRangeEnd = parseFloat(endFeet);
+          }
+        }
         // Dispatch setUser action to store user data in Redux store
         dispatch(setUser({ userId, userData }));
       } catch (error) {
