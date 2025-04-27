@@ -26,6 +26,7 @@ import ImagePopup from "../PopUps/ImageView";
 import SpamPopUp from "../PopUps/SpamPopUp";
 import ThankYouPop from "../PopUps/ThankYouPop";
 import { RiSpam2Line } from "react-icons/ri";
+import { convertToFeetInches } from "../../common/common";
 
 const OptionDetails = ({
   option,
@@ -380,7 +381,7 @@ const OptionDetails = ({
                   <span className="font-regular text-start w-1/2 ">
                     <p>
                       {option?.basicDetails[0]?.age}yrs{" ,"}
-                      {option?.additionalDetails[0]?.height || "NA"}ft
+                      {convertToFeetInches(option?.additionalDetails[0]?.height) || "NA"}ft
                     </p>
                     <p>{formattedDateOfBirth}</p>
 
