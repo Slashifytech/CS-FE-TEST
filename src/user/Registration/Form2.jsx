@@ -4,7 +4,7 @@ import { setStep, selectStepper } from "../../Stores/slices/Regslice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser, userDataStore } from "../../Stores/slices/AuthSlice";
-import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common.js";
+import { convertFeetInchesToInches, convertToFeetInches, convertToFeetInchesDecimal } from "../../common/common.js";
 
 // import {
 //   setUser,
@@ -353,6 +353,9 @@ const Form2 = ({ page, stateCheck }) => {
             }));
             setCity(mappedCities);
           }
+           if (formData.additionalDetails && formData.additionalDetails.height) {
+                              formData.additionalDetails.height = convertToFeetInches(formData.additionalDetails.height);
+                            }
         }
       } catch (error) {
         // console.log(error);
