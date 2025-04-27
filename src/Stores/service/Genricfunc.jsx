@@ -28,23 +28,21 @@ export const getUser = async (userId) => {
     const data = response.data;
     
     if (data.user.additionalDetails && data.user.additionalDetails.height) {
-      const heightInFeet = (data.user.additionalDetails.height / 12).toFixed(1); 
-      data.user.additionalDetails.height = parseFloat(heightInFeet);
-    }
-    
-    if (data.user.partnerPreference && data.user.partnerPreference.length > 0) {
-      const partnerPref = data.user?.partnerPreference;
-      console.log("partnerData", partnerPref)
-      if (partnerPref.heightRangeStart) {
-        const startFeet = (partnerPref.heightRangeStart / 12).toFixed(1);
-        partnerPref.heightRangeStart = parseFloat(startFeet);
-      }
-      
-      if (partnerPref.heightRangeEnd) {
-        const endFeet = (partnerPref.heightRangeEnd / 12).toFixed(1);
-        partnerPref.heightRangeEnd = parseFloat(endFeet);
-      }
-    }
+         data.user.additionalDetails.height = convertToFeetInches(data.user.additionalDetails.height);
+       }
+       
+       if (data.user.partnerPreference && data.user.partnerPreference.length > 0) {
+         const partnerPref = data.user.partnerPreference[0]; // fixed: it's an array
+       
+         if (partnerPref.heightRangeStart) {
+           partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
+         }
+       
+         if (partnerPref.heightRangeEnd) {
+           partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
+         }
+       }
+   
 
     console.log(data, "datacheck");
     return data;

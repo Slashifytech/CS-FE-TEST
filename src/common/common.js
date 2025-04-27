@@ -12,3 +12,9 @@ export const convertToFeetInchesDecimal = (inches) => {
     const [feet, inches] = val.toString().split(".").map(Number);
     return feet * 12 + (inches || 0);
   };
+
+ export  const convertToFeetInches = (inches) => {
+    const feet = Math.floor(inches / 12);
+    const remainingInches = inches % 12;
+    return `${feet}.${remainingInches}`;
+  };

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { jwtDecode } from "jwt-decode";
 import apiurl from '../../util';
+import { convertToFeetInches } from '../../common/common';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -66,22 +67,18 @@ export const decodeCookieAndFetchUserData = () => async (dispatch) => {
         const response = await apiurl.get(`/auth/getUser/${userId}`);
         const userData = response?.data?.user;
         if (userData.additionalDetails && userData.additionalDetails.height) {
-          const heightInFeet = (userData.additionalDetails.height / 12).toFixed(1);
-          userData.additionalDetails.height = parseFloat(heightInFeet);
+          userData.additionalDetails.height = convertToFeetInches(userData.additionalDetails.height);
         }
       
         if (userData.partnerPreference && userData.partnerPreference.length > 0) {
-          const partnerPref = userData.partnerPreference[0]; 
-
+          const partnerPref = userData.partnerPreference[0];
       
           if (partnerPref.heightRangeStart) {
-            const startFeet = (partnerPref.heightRangeStart / 12).toFixed(1);
-            partnerPref.heightRangeStart = parseFloat(startFeet);
+            partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
           }
       
           if (partnerPref.heightRangeEnd) {
-            const endFeet = (partnerPref.heightRangeEnd / 12).toFixed(1);
-            partnerPref.heightRangeEnd = parseFloat(endFeet);
+            partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
           }
         }
         // Dispatch setUser action to store user data in Redux store
