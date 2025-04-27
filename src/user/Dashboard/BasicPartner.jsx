@@ -415,19 +415,17 @@ const BasicPartnerEdit = () => {
     try {
       const formData = await getFormData(userId, 6);
       const partnerPreference = formData.partnerPreference;
-              
-            
-              if (partnerPreference) {
-                const partnerPref = partnerPreference;
-            
-                if (partnerPref.heightRangeStart) {
-                  partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
-                }
-            
-                if (partnerPref.heightRangeEnd) {
-                  partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
-                }
-              }
+      if (partnerPreference) {
+        const partnerPref = partnerPreference;
+    
+        if (partnerPref.heightRangeStart) {
+          partnerPref.heightRangeStart = convertToFeetInches(partnerPref.heightRangeStart);
+        }
+    
+        if (partnerPref.heightRangeEnd) {
+          partnerPref.heightRangeEnd = convertToFeetInches(partnerPref.heightRangeEnd);
+        }
+      }
       setBasicDetails(partnerPreference);
       setBasicData(partnerPreference);
       const parseStringToArray = (str) => {
@@ -580,25 +578,7 @@ const BasicPartnerEdit = () => {
                     getAriaValueText={valuetext}
                     disableSwap
                   />
-                </div>setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
-setBasicDetails
+                </div>
                 <div className=" mb-2 mt-5">
                   <label className="font-semibold mt-2 "> Height Range</label>
                   <HeightSlider
