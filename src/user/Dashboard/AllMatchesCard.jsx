@@ -15,6 +15,7 @@ import ImagePopup from "../PopUps/ImageView";
 import ThankYouPop from "../PopUps/ThankYouPop";
 import SpamPopUp from "../PopUps/SpamPopUp";
 import { RiSpam2Line } from "react-icons/ri";
+import { convertToFeetInches } from "../../common/common";
 
 const AllMatchesCard = ({ profileDetails, setIsBlockedUser }) => {
   const { userId } = useSelector(userDataStore);
@@ -204,7 +205,7 @@ const AllMatchesCard = ({ profileDetails, setIsBlockedUser }) => {
     const [year, month, day] = dateOfBirth.split("-");
     return `${day}-${month}-${year}`;
   }, [dateOfBirth]);
-  const height = profileDetails?.additionalDetails[0]?.height;
+  const height = convertToFeetInches(profileDetails?.additionalDetails[0]?.height);
   const formattedHeight = height
     ? String(height).replace("undefined", "") + "ft"
     : "NA";
