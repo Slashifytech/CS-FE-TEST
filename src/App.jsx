@@ -91,6 +91,7 @@ const DeletedUserRoutes = () => (
     <Route path="/waiting" element={<BeforeApprovalPage />} />
     <Route path="/form-submitted" element={<Thankyou />} />
 
+    <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
     <Route path="/reapprove" element={<ReApprove />} />
@@ -530,6 +531,7 @@ function App() {
         {accessType?.accessType === "2" ? (
           accessType?.isDeleted === true ||
           accessType?.registrationPhase === "notapproved" ||
+                accessType?.registrationPhase === "rejected" ||
           accessType?.registrationPhase === "registering" ? (
             <DeletedUserRoutes />
           ) : (
