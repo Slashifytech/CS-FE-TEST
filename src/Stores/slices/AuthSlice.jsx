@@ -34,6 +34,8 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       localStorage.removeItem("authToken");
+      localStorage.removeItem("enString");
+
       localStorage.removeItem("nekoTssel-PTO");
       localStorage.removeItem("oc");
       localStorage.removeItem("ohc");

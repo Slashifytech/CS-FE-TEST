@@ -31,4 +31,4 @@ export function capitalizeWord(input) {
     .filter(word => word.toLowerCase() !== "undefined")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) 
     .join(" ");
-}
+} 

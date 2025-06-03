@@ -10,6 +10,7 @@ const LoginPopup = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const routeString = localStorage.getItem('enString')
   const params = new URLSearchParams(location.search);
   const code = params.get("code");
   const expiryTime = params.get("expiryTime");
@@ -45,7 +46,7 @@ const LoginPopup = () => {
           ) {
             navigate(`/registration-form/${existingUser.registrationPage}`);
           } else {
-            navigate("/user-dashboard");
+            navigate(`/user-dashboard${routeString}`);
           }
         } catch (error) {
           console.error("Login failed:", error);

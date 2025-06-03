@@ -12,6 +12,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Shortlisted = () => {
   const { userId } = useSelector(userDataStore);
+        const routeString = localStorage.getItem('enString')
+  
   const isToggle = useSelector((state) => state.toggle.isToggle);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -86,7 +88,7 @@ const Shortlisted = () => {
             className="flex flex-col items-center ml-20 mt-6"
             message="Data not found"
             linkText="Back to Dashboard"
-            linkDestination="/user-dashboard"
+            linkDestination={`/user-dashboard/${routeString}`}
           />
         ) : (
           matchData?.map((item) => (

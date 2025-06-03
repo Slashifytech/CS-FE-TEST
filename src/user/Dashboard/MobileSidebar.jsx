@@ -22,6 +22,7 @@ const MobileSidebar = memo(({ isPopupOpen, closePopup, updateBrowserId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const path = window.location.pathname;
+      const routeString = localStorage.getItem('enString')
 
   const openLogoutPopup = useCallback(() => {
     setisLogoutOpen(true);
@@ -89,9 +90,9 @@ const MobileSidebar = memo(({ isPopupOpen, closePopup, updateBrowserId }) => {
               <ul className="flex flex-col mx-5 mt-7">
                 <Link
                   className={`py-2 px-2 my-1 text-black rounded-xl cursor-pointer ${
-                    path === "/user-dashboard" && "res-sidebar-active"
+                    path === `/user-dashboard/${routeString}` && "res-sidebar-active"
                   }`}
-                  to="/user-dashboard"
+                  to={`/user-dashboard/${routeString}`}
                 >
                   <li onClick={closePopup} className={`flex items-center`}>
                     <BsFillGrid1X2Fill size={22} />

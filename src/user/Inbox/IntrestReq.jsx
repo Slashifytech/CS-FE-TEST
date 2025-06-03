@@ -17,6 +17,7 @@ const socket = io(`https://connectingsoulmate.website`);
 
 const ProfileReq = () => {
   const { userId } = useSelector(userDataStore);
+      const routeString = localStorage.getItem('enString')
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [buttonClickFlag, setButtonClickFlag] = useState(false);
@@ -249,7 +250,7 @@ const ProfileReq = () => {
               className="flex flex-col items-center md:ml-36 mt-11 sm:ml-28 sm:mt-20"
               message="No data available to show"
               linkText="Back to Dashboard"
-              linkDestination="/user-dashboard"
+              linkDestination={`/user-dashboard/${routeString}`}
             />
           ) : (
             dataCards?.map((item, index) => (

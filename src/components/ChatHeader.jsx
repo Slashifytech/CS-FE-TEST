@@ -17,6 +17,8 @@ import MobileSidebar from "../user/Dashboard/MobileSidebar";
 
 const ChatHeader = () => {
   const location = useLocation();
+      const routeString = localStorage.getItem('enString')
+  
   const path = location.pathname;
   const [isPopupOpen, setPopupOpen] = useState(false);
   const { isThere } = useSelector(notificationStore);
@@ -58,15 +60,15 @@ const ChatHeader = () => {
     <>
       <nav className="md:px-6 px-6 bg-[#FCFCFC] navshadow hidden md:block sm:block fixed  w-full  z-30">
         <div className="flex items-center ">
-          <Link to="/user-dashboard">
+          <Link to={`/user-dashboard/${routeString}`}>
             <img src={logo} alt="logo" className="md:w-28 w-[9vh] pt-2" />
           </Link>
           <span className="md:block sm:block hidden">
             <ul className="flex items-center text-[16px] font-semibold absolute md:right-12 sm:right-5 md:gap-3 top-8">
-              <Link to="/user-dashboard">
+              <Link to={`/user-dashboard/${routeString}`}>
                 <li
                   className={`cursor-pointer flex items-center hover:bg-secondary hover:text-white rounded-lg px-2 py-1 ${
-                    (path === "/user-dashboard" ||
+                    (path === `/user-dashboard/${routeString}` ||
                       path === "/partner-edit" ||
                       path === "/profile" ||
                       path === "/image-edit" ||
@@ -220,15 +222,17 @@ const ChatHeader = () => {
 const ChatBottomNav = () => {
     const location = useLocation();
     const path = location.pathname;
+    const routeString = localStorage.getItem('enString')
+
   return (
   <>
      <div className="px-5 w-screen bottom-5 fixed  z-30">
         <div className="sm:hidden md:hidden xl:hidden ss:hidden bg-primary rounded-3xl py-5">
           <ul className="flex items-center justify-evenly">
-            <Link to="/user-dashboard">
+            <Link to={`/user-dashboard/${routeString}`}>
               <li
                 className={`flex items-center text-white cursor-pointer ${
-                  (location.pathname === "/user-dashboard" ||
+                  (location.pathname === `/user-dashboard/${routeString}` ||
                     location.pathname === "/partner-edit" ||
                     location.pathname === "/profile" ||
                     location.pathname === "/image-edit" ||
@@ -241,7 +245,7 @@ const ChatBottomNav = () => {
                 }`}
               >
                 <BsFillGrid1X2Fill className="w-6 h-6 mr-1" />
-                {(location.pathname === "/user-dashboard" ||
+                {(location.pathname === `/user-dashboard/${routeString}` ||
                   location.pathname === "/partner-edit" ||
                   location.pathname === "/profile" ||
                   location.pathname === "/image-edit" ||

@@ -27,6 +27,7 @@ const NotificationLink = ({ notification, userId }) => {
     }
     return fullName;
   }
+  const routeString = localStorage.getItem('enString')
 
   const getLink = () => {
     const baseRoute = {
@@ -270,7 +271,7 @@ const NotificationReceiver = () => {
     <>
       <Header />
       <BackArrow
-        LinkData="/user-dashboard"
+        LinkData={`/user-dashboard/${routeString}`}
         className="absolute md:ml-24 md:mt-28 sm:mt-28 w-full md:w-52 overflow-hidden"
       />
       <div className="shadow md:px-9 py-3 pb-20 px-6 mb-36 md:mb-16 md:mx-60 my-5 rounded-lg sm:mt-48 sm:mb-9 md:mt-44 mt-32 mx-6">

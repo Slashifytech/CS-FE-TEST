@@ -15,6 +15,8 @@ import { MdOutlinePrivacyTip, MdOutlineSupportAgent } from "react-icons/md";
 import ImagePopup from "../PopUps/ImageView";
 
 const SideBar = ({ updateBrowserId }) => {
+  const routeString = localStorage.getItem('enString')
+
   const [isOpen, setIsOpen] = useState(false);
   const [showProf, setShowProf] = useState(false);
   const [isLogoutOpen, setisLogoutOpen] = useState(false);
@@ -148,9 +150,10 @@ const SideBar = ({ updateBrowserId }) => {
               <ul className="flex flex-col mx-5 mt-5">
                 <Link
                   className={`py-2 px-2 hover:bg-white hover:text-primary rounded-xl cursor-pointer ${
-                    path === "/user-dashboard" && "sidebar-active"
+                    path === `/user-dashboard/${routeString}` &&
+                    "sidebar-active"
                   }`}
-                  to="/user-dashboard"
+                  to={`/user-dashboard/${routeString}`}
                 >
                   <li className={`flex items-center`}>
                     <span className="text-[23px]">

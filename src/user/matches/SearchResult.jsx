@@ -15,6 +15,7 @@ const SearchResult = () => {
   const navigate = useNavigate();
   const { userData, userId } = useSelector(userDataStore);
   const isToggle = useSelector((state) => state.toggle.isToggle);
+  const routeString = localStorage.getItem('enString')
 
   const [blockedUsers, setBlockedUsers] = useState([]);
   const [error, setError] = useState(null);
@@ -46,7 +47,7 @@ const SearchResult = () => {
           className="flex flex-col items-center mt-9"
           message="No filters applied"
           linkText="Back to Dashboard"
-          linkDestination="/user-dashboard"
+          linkDestination={`/user-dashboard/${routeString}`}
         />
       </>
     );
@@ -148,7 +149,7 @@ const SearchResult = () => {
             className="flex flex-col items-center mt-9"
             message="No users found"
             linkText="Back to Dashboard"
-            linkDestination="/user-dashboard"
+            linkDestination={`/user-dashboard/${routeString}`}
           />
         ) : (
           usersData.map((item) => (

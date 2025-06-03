@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { userDataStore } from "../Stores/slices/AuthSlice";
 import apiurl from "../util";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
+
 export const fetchData = async (endpoint, params = null) => {
   try {
     let response;
@@ -182,3 +183,36 @@ export const fetchImageAsBuffer = async (imageUrl) => {
     throw error;
   }
 }
+
+
+
+
+export const decryptDataString = (encryptedString, base64Key) => {
+  try {
+    const [ivHex, encryptedHex] = encryptedString.split(":");
+
+    if (!ivHex || !encryptedHex) {
+      throw new Error("Invalid encrypted data format");
+    }
+
+    // Decode base64 to match Buffer.from(base64, 'base64') in Node.js
+    const key = CryptoJS.enc.Base64.parse(base64Key);
+    const iv = CryptoJS.enc.Hex.parse(ivHex);
+    const encrypted = CryptoJS.enc.Hex.parse(encryptedHex);
+
+    const decrypted = CryptoJS.AES.decrypt(
+      { ciphertext: encrypted },
+      key,
+      {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+      }
+    );
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  } catch (err) {
+    console.error("Decryption error:", err.message);
+    return null;
+  }
+};

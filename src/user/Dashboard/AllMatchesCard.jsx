@@ -205,7 +205,8 @@ const AllMatchesCard = ({ profileDetails, setIsBlockedUser }) => {
     const [year, month, day] = dateOfBirth.split("-");
     return `${day}-${month}-${year}`;
   }, [dateOfBirth]);
-  const height = convertToFeetInches(profileDetails?.additionalDetails[0]?.height);
+   const height = convertToFeetInches(profileDetails?.additionalDetails[0]?.height);
+ 
   const formattedHeight = height
     ? String(height).replace("undefined", "") + "ft"
     : "NA";

@@ -23,6 +23,7 @@ const BlockProfile = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [totalUsersCount, setTotalUsersCount] = useState(0);
+      const routeString = localStorage.getItem('enString')
 
   const getPageFromURL = () => {
     const searchParams = new URLSearchParams(location.search);
@@ -99,7 +100,7 @@ console.log(blockedUsers, "klk")
             className="flex flex-col items-center mt-11 sm:mt-20"
             message="You have not blocked any profile"
             linkText="Back to Dashboard"
-            linkDestination="/user-dashboard"
+            linkDestination={`/user-dashboard/${routeString}`}
           />
         ) : (
           <>

@@ -15,6 +15,8 @@ import MobileSidebar from "../user/Dashboard/MobileSidebar";
 
 const Header = () => {
   const location = useLocation();
+        const routeString = localStorage.getItem('enString')
+  
   const path = location.pathname;
   const [isPopupOpen, setPopupOpen] = useState(false);
   const { isThere } = useSelector(notificationStore);
@@ -59,11 +61,11 @@ const Header = () => {
   const navItems = useMemo(
     () => [
       {
-        to: "/user-dashboard",
+        to: `/user-dashboard/${routeString}`,
         icon: <BsFillGrid1X2Fill size={22} />,
         label: "Dashboard",
         isActive:
-          path === "/user-dashboard" ||
+          path === `/user-dashboard/${routeString}` ||
           path === "/partner-edit" ||
           path === "/profile" ||
           path === "/image-edit" ||
@@ -124,7 +126,7 @@ const Header = () => {
     <>
       <nav className="md:px-6 px-6 bg-[#FCFCFC] navshadow hidden md:block sm:block fixed  w-full  z-30 ">
         <div className="flex items-center ">
-          <Link to="/user-dashboard">
+          <Link to={`/user-dashboard/${routeString}`}>
             <img src={logo} alt="logo" loading="lazy" className="md:w-28 sm:w-28 w-[9vh] pt-2" />
           </Link>
           <span className="md:block sm:block hidden">

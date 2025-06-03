@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import DataNotFound from "../components/DataNotFound";
 import DeclinePopUp from "./comps/DeclinePopUp";
 import Loading from "../components/Loading";
+import { useSelector } from "react-redux";
 
 const config = {
   headers: {
@@ -187,6 +188,7 @@ const Approval = () => {
   const [loading, setLoading] = useState(true);
   const [allUsers, setAllUsers] = useState([]);
   const [totalPagesCount, setTotalPagesCount] = useState(0);
+  const routeString = localStorage.getItem('enString')
 
   function getPageFromURL() {
     const searchParams = new URLSearchParams(location.search);
@@ -318,7 +320,7 @@ const Approval = () => {
               className="flex flex-col items-center md:ml-36 mt-11 sm:ml-28 sm:mt-20"
               message="No approval requests available"
               linkText="Back to Dashboard"
-              linkDestination="/user-dashboard"
+              linkDestination={`/user-dashboard/${routeString}`}
             />
           ) : (
             allUsers.map((item, index) => (

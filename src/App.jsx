@@ -81,6 +81,8 @@ import NotificationSubscribe from "./Admin/comps/NotificationSubscribe";
 import { getToken } from "./Stores/service/getToken";
 import ContactUs from "./components/ContactUs";
 import UserReport from "./Admin/UserReport";
+import { stringForRoute } from "./Stores/service/Genricfunc";
+import { storeRouteString } from "./Stores/slices/RouteEncryptSlice";
 
 const socket = io(import.meta.env.VITE_APP_DEV_BASE_URL);
 
@@ -90,6 +92,7 @@ const DeletedUserRoutes = () => (
     {/* <Route path="/link-verification" element={<VerifyLinkReq />} /> */}
     <Route path="/waiting" element={<BeforeApprovalPage />} />
     <Route path="/form-submitted" element={<Thankyou />} />
+    <Route path="/inreview" element={<ReviewAlert />} />
 
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
@@ -107,7 +110,6 @@ const DefaultRoutes = () => (
     <Route path="/" element={<Home />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/login/:number" element={<LoginPopup />} />
-    <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
     <Route path="/form-submitted" element={<Thankyou />} />
     <Route path="/consent-form" element={<Consent />} />
@@ -175,9 +177,9 @@ const SubadminRoutes = () => (
   </Routes>
 );
 
-const UserRoutes = () => (
+const UserRoutes = ({routeString}) => (
   <Routes>
-    <Route path="/" element={<Home />} />
+    <Route path="/"  element={<Home />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
     <Route path="/consent-form" element={<Consent />} />
@@ -185,7 +187,9 @@ const UserRoutes = () => (
       path="/change-register-number/:token"
       element={<NumberChangePop />}
     />
-    <Route path="/user-dashboard" element={<ActivityCard />} />
+    <Route path="/inreview" element={<ReviewAlert />} />
+
+    <Route path={`/user-dashboard/${routeString}`} element={<ActivityCard />} />
     <Route path="/basic-search" element={<BasicSearch />} />
     <Route path="/searchbyid" element={<IdSearch />} />
     <Route path="/form-submitted" element={<Thankyou />} />
@@ -208,7 +212,6 @@ const UserRoutes = () => (
     <Route path="/settings/email" element={<SubsEmail />} />
     <Route path="/settings/notification-sub" element={<NotificationSubs />} />
 
-    <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/waiting-or-rejected" element={<WaitingOrRejected />} />
     <Route path="/consent-form" element={<Consent />} />
     <Route path="/form-submitted" element={<Thankyou />} />
@@ -231,7 +234,11 @@ const UserRoutes = () => (
 
 function App() {
   const dispatch = useDispatch();
+
   const { isThere, isAdminThere } = useSelector(notificationStore);
+  const routeString = localStorage.getItem('enString')
+  console.log(routeString, "stringcheck")
+  const authToken = localStorage.getItem('authToken')
   const { userData, userId } = useSelector(userDataStore);
   const [accessType, setAccessType] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -363,6 +370,11 @@ function App() {
   useEffect(() => {
     subscribeNotification(isThere);
   }, [isThere]);
+
+  //encrypted string
+  useEffect(() => {
+    stringForRoute();
+  }, [authToken]);
 
   useEffect(() => {
     socket.on(`DELETE_TOKEN_FOR_USER/${userId}`, (data) => {
@@ -519,10 +531,15 @@ function App() {
   // console.log(token);
   postMessage();
 }, [token]);
+useEffect(() => {
+  dispatch(storeRouteString());
+}, [dispatch]);
+
 
   if (loading) {
     return;
   }
+ 
   return (
     <>
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar />
@@ -530,10 +547,11 @@ function App() {
         {accessType?.accessType === "2" ? (
           accessType?.isDeleted === true ||
           accessType?.registrationPhase === "notapproved" ||
+          accessType?.registrationPhase === "rejected" ||
           accessType?.registrationPhase === "registering" ? (
             <DeletedUserRoutes />
           ) : (
-            <UserRoutes />
+            <UserRoutes routeString={routeString} />
           )
         ) : null}
         {accessType?.accessType === "1" && <SubadminRoutes />}

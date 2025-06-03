@@ -12,6 +12,7 @@ import toggleReducer from "./slices/UpdateSlice"
 import socketMiddleware from './middleware/socketMiddleware';
 import chatReducer from "./slices/chatSlice";
 import masterReducer from "./slices/MasterSlice";
+import routeEncryptRecducer from "./slices/RouteEncryptSlice"
 
 
 
@@ -26,7 +27,8 @@ export const store = configureStore({
     admin: adminReducer,
    toggle: toggleReducer,
    chat: chatReducer,
-   masterData: masterReducer
+   masterData: masterReducer,
+   routeEncrypt: routeEncryptRecducer
 
   },
 

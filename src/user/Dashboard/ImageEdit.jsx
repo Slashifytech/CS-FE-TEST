@@ -88,7 +88,7 @@
 //       );
 //       toast.success("Image updated successfully");
 
-//       navigate("/user-dashboard");
+//       navigate({`/user-dashboard/${routeString}`});
 //       const responses = await apiurl.get(`/auth/getUser/${userId}`);
 //       const userData = responses?.data?.user;
 
@@ -434,7 +434,7 @@
 //                 ))}
 //               </span>
 //               <span className="flex justify-end items-center gap-5 mt-11">
-//                 <Link to="/user-dashboard">
+//                 <Link to={`/user-dashboard/${routeString}`}>
 //                   <span className="border border-primary px-6 py-2 rounded-md text-primary cursor-pointer">
 //                     Cancel
 //                   </span>
@@ -488,6 +488,7 @@ const ImageEdit = () => {
     showUrlProfile: false,
     activeImageIndex: -1,
   });
+  const routeString = localStorage.getItem('enString')
 
   const [latestImages, setLatestImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -720,7 +721,7 @@ const ImageEdit = () => {
           ),
         }));
       }
-      navigate("/user-dashboard");
+      navigate(`/user-dashboard/${routeString}`);
       const responses = await apiurl.get(`/auth/getUser/${userId}`);
       const userData = responses?.data?.user;
 
@@ -1108,7 +1109,7 @@ const ImageEdit = () => {
                 ))}
               </span>
               <span className="flex justify-end items-center gap-5 mt-11">
-                <Link to="/user-dashboard">
+                <Link to={`/user-dashboard/${routeString}`}>
                   <span className="border border-primary px-6 py-2 rounded-md text-primary cursor-pointer">
                     Cancel
                   </span>

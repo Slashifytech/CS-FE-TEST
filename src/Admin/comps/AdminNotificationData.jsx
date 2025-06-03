@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react"
 import Nav from "../Nav";
 import apiurl from "../../util";
 import { getToken } from "../../Stores/service/getToken";

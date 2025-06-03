@@ -9,6 +9,7 @@ import apiurl from "../util.js";
 import { jwtDecode } from "jwt-decode";
 import Footer from "../components/Footer.jsx";
 import HomeAnimation, { ChooseSection } from "../components/HomeAnimation.jsx";
+import { useState } from "react";
 
 const ProcessSection = React.lazy(() =>
   import("../components/HomeAnimation.jsx").then((module) => ({
@@ -31,7 +32,19 @@ const HomeAppDownloadSec = React.lazy(() =>
 gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const dispatch = useDispatch();
-  const { userData } = useSelector(userDataStore);
+  const { userData, userId } = useSelector(userDataStore);
+  const waitForRouteStringAndNavigate = () => {
+    const checkInterval = setInterval(() => {
+      const route = localStorage.getItem("enString");
+      if (route && route.trim() !== "" ) {
+        clearInterval(checkInterval);
+        setTimeout(() => {
+          navigate(`/user-dashboard/${route}`);
+        }, 500); 
+      }
+    }, 200);
+  };
+  
   const navigate = useNavigate();
   const isAuthTokenValid = () => {
     const token = localStorage.getItem("authToken");
@@ -91,7 +104,8 @@ const Home = () => {
               existingUser.accessType === "0" ||
               existingUser.accessType === "1"
             ) {
-              navigate(`/admin/dashboard`);
+                     waitForRouteStringAndNavigate(); 
+
             } else if (
               existingUser.registrationPage === "6" &&
               existingUser.registrationPhase === "notapproved"
@@ -105,7 +119,8 @@ const Home = () => {
                 state: passPage,
               });
             } else {
-              navigate("/user-dashboard");
+                     waitForRouteStringAndNavigate(); 
+
             }
           } else {
             navigate(`/signup/${num}`);
@@ -137,7 +152,8 @@ const Home = () => {
               state: passPage,
             });
           } else {
-            navigate("/user-dashboard");
+                   waitForRouteStringAndNavigate(); 
+
           }
         }
       }
@@ -201,7 +217,7 @@ const Home = () => {
     <>
       <nav>
         <div className="flex w-full justify-between item-center md:px-9 px-6  py-1 bg-[#FCFCFC] navshadow z-30">
-          <img loading="lazy" src={logo} alt="logo" className="sm:w-28 w-28 " />
+          <img loading="lazy" src={logo} alt="logo" className="sm:w-28 w-24 " />
           <span className="flex justify-end items-center flex-1">
             <span
               className="border-[1px] mx-6 border-[#A92525] p-1 px-3 rounded-lg text-[#A92525] cursor-pointer hover:bg-[#A92525] hover:text-white"

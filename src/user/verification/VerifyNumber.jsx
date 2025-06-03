@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,9 +32,9 @@ const isAuthTokenValid = () => {
     const currentDate = new Date(currentTime * 1000);
     const expiryDate = new Date(expiryTime * 1000);
 
-    console.log("Current Date:", currentDate);
-    console.log("Expiry Date:", expiryDate);
-    console.log("Time Difference (seconds):", timeDifference);
+    // console.log("Current Date:", currentDate);
+    // console.log("Expiry Date:", expiryDate);
+    // console.log("Time Difference (seconds):", timeDifference);
 
     if (timeDifference <= 0) {
       console.log("expiredToken");
@@ -110,7 +109,8 @@ document.body.appendChild(script);
 
 const VerifyNumber = ({ onClose, onSignupClick }) => {
   const dispatch = useDispatch();
-  const { userData } = useSelector(userDataStore);
+  
+  const { userData , userId} = useSelector(userDataStore);
   const [countryCode, setCountryCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(userData?.createdBy[0]?.phone);
   const [valid, setValid] = useState(true);
@@ -118,6 +118,20 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
   const action = location.state?.action;
   const navigate = useNavigate();
 
+  
+
+  const waitForRouteStringAndNavigate = () => {
+    const checkInterval = setInterval(() => {
+      const route = localStorage.getItem("enString");
+      if (route && route.trim() !== "") {
+        clearInterval(checkInterval);
+        setTimeout(() => {
+          navigate(`/user-dashboard/${route}`);
+        }, 500); // Delay redirection by 500ms
+      }
+    }, 200);
+  };
+  
   const handleChange = (value, country) => {
     setCountryCode(country.dialCode);
     setPhoneNumber(value);
@@ -129,7 +143,7 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
     return phoneNumberPattern.test(phoneNumber);
   };
 
-  console.log(isAuthTokenValid());
+  // console.log(isAuthTokenValid());
 
  
   
@@ -138,10 +152,10 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
     const handleVerify = async (user) => {
         try {
         if (!isAuthTokenValid() || userData === null || userData?.createdBy[0]?.phone !== `${countryCode?.replace("+", "")}${phoneNumber?.slice(countryCode?.length)}`) {
-            console.log("entered");
-            console.log(user);
+            // console.log("entered");
+            // console.log(user);
             if (user) {
-            console.log("Using user data for verification:", user);
+            // console.log("Using user data for verification:", user);
             let num;
             if (user?.mobile && user?.mobile?.number) {
                 num = user?.mobile?.number;
@@ -151,7 +165,7 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
 
             const response = await apiurl.post("/auth/signin", { num });
             const { existingUser, token, message, user: userData, isNotification, isAdminNotification } = response.data;
-            console.log(existingUser, token, message);
+            // console.log(existingUser, token, message);
             // Dispatch actions to set user data and JWT token in Redux state
             dispatch(isNotificationsState(isNotification))
             dispatch(isAdminNotificationState(isAdminNotification))
@@ -174,7 +188,7 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
                 } else if (existingUser.registrationPage !== "" && existingUser.registrationPhase === "registering") {
                 navigate(`/registration-form/${existingUser.registrationPage}`, {state: passPage});
                 } else {
-                navigate("/user-dashboard");
+             waitForRouteStringAndNavigate(); 
                 // window.location.reload();
                 
                 }
@@ -206,7 +220,7 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
                 navigate(`/registration-form/${existingUser.registrationPage}`, {state: passPage});
             } else {
                 
-                navigate("/user-dashboard");
+             waitForRouteStringAndNavigate(); 
         
             }
             }
@@ -220,10 +234,10 @@ const VerifyNumber = ({ onClose, onSignupClick }) => {
         }
     };
   
-    console.log(userData, "verifl")
+    // console.log(userData, "verifl")
 
   const handleOtplessUser = (user) => {
-    console.log("Otpless user set:", user);
+    // console.log("Otpless user set:", user);
     handleVerify(user)
   };
 
