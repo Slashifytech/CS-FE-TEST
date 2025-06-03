@@ -94,6 +94,7 @@ const DeletedUserRoutes = () => (
     <Route path="/form-submitted" element={<Thankyou />} />
     <Route path="/inreview" element={<ReviewAlert />} />
 
+    <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
     <Route path="/reapprove" element={<ReApprove />} />
