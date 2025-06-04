@@ -94,7 +94,6 @@ const DeletedUserRoutes = () => (
     <Route path="/form-submitted" element={<Thankyou />} />
     <Route path="/inreview" element={<ReviewAlert />} />
 
-    <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
     <Route path="/reapprove" element={<ReApprove />} />
@@ -229,7 +228,7 @@ const UserRoutes = ({routeString}) => (
     <Route path="/banned" element={<BannedUser />} />
     <Route path="/waiting" element={<BeforeApprovalPage />} />
     <Route path="/chat-list-interest-accepted" element={<ChatSidebar />} />
-    <Route path="/*" element={<ErrorPage LinkPage={"/user-dashboard"} />} />
+    <Route path="/*" element={<ErrorPage LinkPage={"/"} />} />
   </Routes>
 );
 

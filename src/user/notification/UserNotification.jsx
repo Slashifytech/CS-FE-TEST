@@ -203,6 +203,8 @@ const NotificationReceiver = () => {
   const [notifications, setNotifications] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
+  const routeString = localStorage.getItem('enString')
+
   const dispatch = useDispatch();
   dispatch(isNotNotification());
 
