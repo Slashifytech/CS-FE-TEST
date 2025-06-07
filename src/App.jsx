@@ -83,6 +83,7 @@ import ContactUs from "./components/ContactUs";
 import UserReport from "./Admin/UserReport";
 import { stringForRoute } from "./Stores/service/Genricfunc";
 import { storeRouteString } from "./Stores/slices/RouteEncryptSlice";
+import VerificationLoader from "./user/verification/VerificationLoader";
 
 const socket = io(import.meta.env.VITE_APP_DEV_BASE_URL);
 
@@ -108,6 +109,8 @@ const DeletedUserRoutes = () => (
 const DefaultRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/verifying/user/auth" element={<VerificationLoader />} />
+
     <Route path="/signup" element={<Signup />} />
     <Route path="/login/:number" element={<LoginPopup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
@@ -188,6 +191,8 @@ const UserRoutes = ({routeString}) => (
       element={<NumberChangePop />}
     />
     <Route path="/inreview" element={<ReviewAlert />} />
+    <Route path="/verifying/user/auth" element={<VerificationLoader />} />
+
 
     <Route path={`/user-dashboard/${routeString}`} element={<ActivityCard />} />
     <Route path="/basic-search" element={<BasicSearch />} />
