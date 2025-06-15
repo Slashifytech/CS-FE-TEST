@@ -1,12 +1,12 @@
 import React from "react";
 
-const Loading = ({ message, customText}) => {
+const Loading = ({ message, customText }) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <button
         disabled
         type="button"
-        className="py-2.5 px-5 mr-2 text-lg font-medium text-gray-900 bg-transparent rounded-lg  focus:z-20 focus:ring-5 focus:ring-primary focus:text-primary  dark:text-gray-400 dark:border-gray-600 dark:hover:text-white inline-flex items-center"
+        className="py-2.5 px-5 ml-6 text-lg font-medium text-gray-900 bg-transparent rounded-lg  focus:z-20 focus:ring-5 focus:ring-primary focus:text-primary  dark:text-gray-400 dark:border-gray-600 dark:hover:text-white inline-flex items-center"
       >
         <svg
           aria-hidden="true"
@@ -25,29 +25,27 @@ const Loading = ({ message, customText}) => {
             fill="#f5cd15"
           />
         </svg>
-        {customText}{message ? " " + message : ""}...
       </button>
+      <p className="ml-6">
+        {customText}
+        {message ? " " + message : ""}...
+      </p>
     </div>
   );
 };
 
-
-
-
-
-
 const Loading3 = () => {
   return (
     <div className="loader3">
-    <div className="circle1"></div>
-    <div className="circle1"></div>
-    <div className="circle1"></div>
-    <div className="circle1"></div>
-    <div className="circle1"></div>
-  </div>
-  )
-}
+      <div className="circle1"></div>
+      <div className="circle1"></div>
+      <div className="circle1"></div>
+      <div className="circle1"></div>
+      <div className="circle1"></div>
+    </div>
+  );
+};
 
-export {Loading, Loading3}
+export { Loading, Loading3 };
 
 export default Loading;
