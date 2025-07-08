@@ -454,7 +454,7 @@ const Form2 = ({ page, stateCheck }) => {
                     InputLabelProps={{
                       shrink: !!formtwo.country || params.inputProps?.value,
                     }}
-                    onFocus={handleFocus}
+                    // onFocus={handleFocus}
                     onBlur={() => {
                       handleBlur();
                     }}
@@ -493,7 +493,7 @@ const Form2 = ({ page, stateCheck }) => {
                   InputLabelProps={{
                     shrink: !!formtwo.state || params.inputProps?.value,
                   }}
-                  onFocus={handleFocus}
+                  // onFocus={handleFocus}
                   onBlur={handleBlur}
                   sx={{
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
@@ -526,7 +526,7 @@ const Form2 = ({ page, stateCheck }) => {
                   InputLabelProps={{
                     shrink: !!formtwo.city || params.inputProps?.value,
                   }}
-                  onFocus={handleFocus}
+                  // onFocus={handleFocus}
                   onBlur={handleBlur}
                   sx={{
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
