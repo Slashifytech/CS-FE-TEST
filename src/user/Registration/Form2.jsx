@@ -42,7 +42,7 @@ const Form2 = ({ page, stateCheck }) => {
     maritalStatus: "",
     smoking: "",
     contact: "", // Integrate phone number into formtwo state
-    email: "",
+    // email: "",
     alcohol: "",
   });
 
@@ -60,9 +60,9 @@ const Form2 = ({ page, stateCheck }) => {
   const [states, setState] = useState([]);
   const [city, setCity] = useState([]);
   const location = useLocation();
-  const [isEmailValid, setEmailValid] = useState("");
+  // const [isEmailValid, setEmailValid] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
   const { userAddedbyAdminId } = useSelector((state) => state.admin);
   let userIdData;
@@ -71,12 +71,12 @@ const Form2 = ({ page, stateCheck }) => {
   } else {
     userIdData = userAddedbyAdminId.userAddedbyAdminId;
   }
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-  const handleBlur = () => {
-    setIsFocused(false);
-  };
+  // const handleFocus = () => {
+  //   setIsFocused(true);
+  // };
+  // const handleBlur = () => {
+  //   setIsFocused(false);
+  // };
 
   const prevForm = () => {
     dispatch(setStep(currentStep - 1));
@@ -198,7 +198,7 @@ const Form2 = ({ page, stateCheck }) => {
     maritalStatus: "",
     smoking: "",
     contact: "",
-    email: "",
+    // email: "",
     alcohol: "",
   });
 
@@ -235,10 +235,10 @@ const Form2 = ({ page, stateCheck }) => {
       errors.contact = "Contact number is required";
       hasErrors = true;
     }
-    if (typeof formtwo.email !== "string" || !formtwo.email.trim()) {
-      errors.email = "Email is required";
-      hasErrors = true;
-    }
+    // if (typeof formtwo.email !== "string" || !formtwo.email.trim()) {
+    //   errors.email = "Email is required";
+    //   hasErrors = true;
+    // }
 
     setFormErrors(errors);
     return !hasErrors;
@@ -249,12 +249,12 @@ const Form2 = ({ page, stateCheck }) => {
       toast.error("Please fill in all required fields.");
       return;
     }
-    if (emailRegex.test(formtwo.email)) {
-      setEmailValid("");
-    } else {
-      setEmailValid("Please Enter a Valid Email");
-      return;
-    }
+    // if (emailRegex.test(formtwo.email)) {
+    //   setEmailValid("");
+    // } else {
+    //   setEmailValid("Please Enter a Valid Email");
+    //   return;
+    // }
     try {
       const response = await apiurl.post(`/user-data/${userIdData}?page=2`, {
         additionalDetails: { ...formtwo },
@@ -305,7 +305,7 @@ const Form2 = ({ page, stateCheck }) => {
     maritalStatus: "Marital Status",
     smoking: "Smoking",
     contact: "Contact",
-    email: "Email",
+    // email: "Email",
     alcohol: "Alcohol",
   };
 
@@ -653,7 +653,7 @@ const Form2 = ({ page, stateCheck }) => {
             </span>
           </div>
 
-          <div className="flex flex-col mb-2 ">
+          {/* <div className="flex flex-col mb-2 ">
             <label htmlFor="name" className="font-semibold mb-1 md:mt-3  mt-8">
               {getLabel()} Email <span className="text-primary">*</span>
             </label>
@@ -667,8 +667,8 @@ const Form2 = ({ page, stateCheck }) => {
               placeholder="Enter your email"
               id="name"
             />
-          </div>
-          <p className="text-primary text-[13px] font-DMsan">{isEmailValid}</p>
+          </div> */}
+          {/* <p className="text-primary text-[13px] font-DMsan">{isEmailValid}</p> */}
           <div className="mt-9 flex justify-center  items-center md:gap-16 gap-3 px-12">
             <Link
               to={`/registration-form/1`}
