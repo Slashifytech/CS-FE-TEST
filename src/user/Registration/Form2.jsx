@@ -527,7 +527,7 @@ const Form2 = ({ page, stateCheck }) => {
                     shrink: !!formtwo.city || params.inputProps?.value,
                   }}
                   // onFocus={handleFocus}
-                  onBlur={handleBlur}
+{/*                   onBlur={handleBlur} */}
                   sx={{
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
                       {
