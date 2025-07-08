@@ -62,7 +62,7 @@ const Form2 = ({ page, stateCheck }) => {
   const location = useLocation();
   // const [isEmailValid, setEmailValid] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
   const { userAddedbyAdminId } = useSelector((state) => state.admin);
   let userIdData;
@@ -71,12 +71,12 @@ const Form2 = ({ page, stateCheck }) => {
   } else {
     userIdData = userAddedbyAdminId.userAddedbyAdminId;
   }
-  // const handleFocus = () => {
-  //   setIsFocused(true);
-  // };
-  // const handleBlur = () => {
-  //   setIsFocused(false);
-  // };
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
 
   const prevForm = () => {
     dispatch(setStep(currentStep - 1));
@@ -454,7 +454,7 @@ const Form2 = ({ page, stateCheck }) => {
                     InputLabelProps={{
                       shrink: !!formtwo.country || params.inputProps?.value,
                     }}
-                    // onFocus={handleFocus}
+                    onFocus={handleFocus}
                     onBlur={() => {
                       handleBlur();
                     }}
@@ -493,7 +493,7 @@ const Form2 = ({ page, stateCheck }) => {
                   InputLabelProps={{
                     shrink: !!formtwo.state || params.inputProps?.value,
                   }}
-                  // onFocus={handleFocus}
+                  onFocus={handleFocus}
                   onBlur={handleBlur}
                   sx={{
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
@@ -526,8 +526,8 @@ const Form2 = ({ page, stateCheck }) => {
                   InputLabelProps={{
                     shrink: !!formtwo.city || params.inputProps?.value,
                   }}
-                  // onFocus={handleFocus}
-{/*                   onBlur={handleBlur} */}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   sx={{
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
                       {
