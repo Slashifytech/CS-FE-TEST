@@ -50,7 +50,7 @@ const Home = () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       localStorage.removeItem("authToken");
-      navigate("/verify-number", { state: { action } });
+      navigate("/verify-email", { state: { action } });
       return false;
     }
     try {
@@ -60,7 +60,7 @@ const Home = () => {
       const timeDifference = expiryTime - currentTime;
       if (timeDifference <= 0) {
         localStorage.removeItem("authToken");
-      navigate("/verify-number", { state: { action } });
+      navigate("/verify-email", { state: { action } });
 
         return false;
       }
@@ -68,7 +68,7 @@ const Home = () => {
       return true;
     } catch (error) {
       localStorage.removeItem("authToken");
-      navigate("/verify-number", { state: { action } });
+      navigate("/verify-email", { state: { action } });
 
       return false;
     }
@@ -79,7 +79,7 @@ const Home = () => {
   const handleVerify = async (user, action) => {
     try {
       if (!localStorage.getItem("authToken")) {
-      navigate("/verify-number", { state: { action } });
+      navigate("/verify-email", { state: { action } });
       }
       if (!isAuthTokenValid(action) || userData === null) {
         if (user) {

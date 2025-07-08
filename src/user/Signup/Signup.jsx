@@ -20,7 +20,7 @@ const Signup = () => {
   const [signup, setSignup] = useState({
     createdFor: null,
     name: "",
-    phone: location?.state?.userNum || "",
+    email: location?.state?.userNum || "",
     gender: "",
   });
 

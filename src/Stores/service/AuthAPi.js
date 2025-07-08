@@ -8,7 +8,7 @@ export const VerifyOtp = async (email, otp) => {
     });
     return response;
   } catch (err) {
-    console.error("Something went wrong:", err);
+    console.log("Something went wrong:", err);
     throw err;
   }
 };

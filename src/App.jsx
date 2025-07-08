@@ -98,7 +98,7 @@ const DeletedUserRoutes = () => (
     <Route path="/maintainance" element={<Maintanance />} />
 
     <Route path="/signup" element={<Signup />} />
-    <Route path="/verify-number" element={<VerifyNumber />} />
+    <Route path="/verify-email" element={<VerifyNumber />} />
     <Route path="/reapprove" element={<ReApprove />} />
     <Route path="/deleted-account" element={<DeleteAlert />} />
     <Route path="/banned" element={<BannedUser />} />
@@ -117,7 +117,7 @@ const DefaultRoutes = () => (
 
     <Route path="/signup" element={<Signup />} />
     <Route path="/login/:number" element={<LoginPopup />} />
-    <Route path="/verify-number" element={<VerifyNumber />} />
+    <Route path="/verify-email" element={<VerifyNumber />} />
     <Route path="/form-submitted" element={<Thankyou />} />
     <Route path="/consent-form" element={<Consent />} />
     <Route path="/registration-form/:page" element={<RegistrationFile />} />
@@ -168,7 +168,7 @@ const AdminRoutes = () => (
     <Route path="/waiting" element={<BeforeApprovalPage />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/signup-newUser" element={<Signup />} />
-    <Route path="/verify-number" element={<VerifyNumber />} />
+    <Route path="/verify-email" element={<VerifyNumber />} />
     <Route path="/registration-form/:page" element={<RegistrationFile />} />
     <Route path="/image-edit" element={<ImageEdit />} />
     <Route path="*" element={<ErrorPage LinkPage={"/admin/dashboard"} />} />
@@ -189,10 +189,10 @@ const UserRoutes = ({routeString}) => (
   <Routes>
     <Route path="/"  element={<Home />} />
     <Route path="/signup" element={<Signup />} />
-    <Route path="/verify-number" element={<VerifyNumber />} />
+    <Route path="/verify-email" element={<VerifyNumber />} />
     <Route path="/consent-form" element={<Consent />} />
     <Route
-      path="/change-register-number/:token"
+      path="/change-register-email/:token"
       element={<NumberChangePop />}
     />
     <Route path="/inreview" element={<ReviewAlert />} />
@@ -425,7 +425,7 @@ function App() {
   //   "/",
   //   "/register-form",
   //   "/registration-form/:page",
-  //   "/verify-number",
+  //   "/verify-email",
   //   "/consent-form",
   //   "/change-register-number/:token",
   //   "/form-submitted",

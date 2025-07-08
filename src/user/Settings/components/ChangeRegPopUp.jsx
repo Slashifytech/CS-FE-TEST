@@ -5,22 +5,12 @@ import { userDataStore } from "../../../Stores/slices/AuthSlice";
 
 
 const ChangeRegPopUp = ({isOpen, closePopUp}) => {
-      const { userId } = useSelector(userDataStore);
-const [isData, setIsData] = useState({})
+      const { userData } = useSelector(userDataStore);
    
 
 
 
-        const fetchData = async () => {
-          const userData = await getUser(userId)
-          setIsData({
-            userData
-          })
-        }
-
-        useEffect(() => {
-        fetchData();
-      }, [userId]);
+    
 
 
       function maskEmail(email) {
@@ -45,9 +35,8 @@ const [isData, setIsData] = useState({})
     
     
     // Example usage
-    let email = isData?.userData?.user?.additionalDetails?.email
+let email = userData?.createdBy?.find(item => item.email)?.email;
     let maskedEmail = maskEmail(email);
-console.log(isData)
   return (
     <>
       {isOpen && (
@@ -59,7 +48,7 @@ console.log(isData)
           <div className="bg-white pb-9  rounded-lg md:w-[58%] w-full  relative p-9  ">
             <span className="flex flex-col items-center justify-center">
               <p className="text-center font-DMsans text-black font-semibold text-[16px] ">
-                We have sent an email on  {maskedEmail}. Please verify to change your registered number.
+                We have sent an email on  {maskedEmail}. Please verify to change your registered Email.
               </p>
 
              

@@ -231,7 +231,7 @@ const SideBar = ({ updateBrowserId }) => {
                           path === "/settings/phonenumber" && "sidebar-active"
                         }`}
                       >
-                        Change Registered Number
+                        Change Registered Email
                       </li>
                     </Link>
                     <Link to="/settings/email">

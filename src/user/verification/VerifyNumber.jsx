@@ -12,7 +12,10 @@ import {
 import apiurl from "../../util";
 import { jwtDecode } from "jwt-decode";
 import Home from "../Home";
-import { isAdminNotificationState, isNotificationsState } from "../../Stores/slices/notificationslice";
+import {
+  isAdminNotificationState,
+  isNotificationsState,
+} from "../../Stores/slices/notificationslice";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { RxCross2 } from "react-icons/rx";
@@ -246,8 +249,6 @@ const isAuthTokenValid = () => {
 
 // export default VerifyNumber;
 
-
-
 const VerifyNumber = () => {
   const location = useLocation();
   const identity = location?.state?.action;
@@ -256,7 +257,8 @@ const VerifyNumber = () => {
   const [isShow, setIsShow] = useState(false);
   const [timer, setTimer] = useState(300);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleSubmit = async () => {
     if (!emailRegex.test(isEmail)) {
       toast.error("Please enter a valid email address");
@@ -291,9 +293,11 @@ const VerifyNumber = () => {
   const handleVerifyOtp = async () => {
     try {
       const res = await VerifyOtp(isEmail, isOtp);
-      if(res?.data?.shouldLogin){
-        handleVerify()
+
+      if (res?.data?.shouldLogin || res?.data?.shouldSignup) {
+    await handleVerify(isEmail);
       }
+      console.log(res , "test")
       toast.success(res.data.message || "Otp Verified successfully");
     } catch (error) {
       console.log("Something went wrong", error);
@@ -318,210 +322,238 @@ const VerifyNumber = () => {
           }
           return prev - 1;
         });
-        
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [isShow]);
 
+  const handleVerify = async (email) => {
+    try {
+      if (
+        !isAuthTokenValid() ||
+        userData === null ||
+        userData?.createdBy[0]?.email
+      ) {
+        const response = await apiurl.post("/auth/signin", { email });
+        const {
+          existingUser,
+          token,
+          message,
+          user: userData,
+          isNotification,
+          isAdminNotification,
+        } = response.data;
+        // console.log(existingUser, token, message);
+        // Dispatch actions to set user data and JWT token in Redux state
+        dispatch(isNotificationsState(isNotification));
+        dispatch(isAdminNotificationState(isAdminNotification));
 
-      const handleVerify = async (user) => {
-        try {
-        if (!isAuthTokenValid() || userData === null || userData?.createdBy[0]?.email) {
-            // console.log("entered");
-            // console.log(user);
-            if (user) {
-            // console.log("Using user data for verification:", user);
-            let num;
-            if (user?.mobile && user?.mobile?.number) {
-                num = user?.mobile?.number;
-            } else {
-                num = user?.identities[0]?.identityValue;
-            }
-
-            const response = await apiurl.post("/auth/signin", { num });
-            const { existingUser, token, message, user: userData, isNotification, isAdminNotification } = response.data;
-            // console.log(existingUser, token, message);
-            // Dispatch actions to set user data and JWT token in Redux state
-            dispatch(isNotificationsState(isNotification))
-            dispatch(isAdminNotificationState(isAdminNotification))
-
-            dispatch(setUser({ userData: { ...userData } }));
-            dispatch(setAuthTokenCookie(token));
-            // navigate("/l
-            if (existingUser) {
-                if(existingUser?.registrationPhase === "rejected"){   //decline
-                navigate("/inreview")
-                }else if (existingUser.isDeleted === true) {
-                navigate("/reapprove");
-
-                } else if (existingUser.accessType === "0" || existingUser.accessType === "1") {
-                navigate(`/admin/dashboard`);
-                // } else if (existingUser.registrationPhase === "rejected") {
-                //   navigate(`/waiting-or-rejected`);
-                } else if (existingUser.registrationPage === "6" && existingUser.registrationPhase === "notapproved") {
-                navigate(`/waiting`);
-                } else if (existingUser.registrationPage !== "" && existingUser.registrationPhase === "registering") {
-                navigate(`/registration-form/${existingUser.registrationPage}`, {state: passPage});
-                } else {
-               navigate('/verifying/user/auth')
-                // window.location.reload();
-
-                }
-            }else{
-              navigate('/signup', { state: { userNum: num } });
-            }
-            }
-            return false;
+        dispatch(setUser({ userData: { ...userData } }));
+        dispatch(setAuthTokenCookie(token));
+        // navigate("/l'
+        console.log(existingUser, "testing")
+        if (existingUser) {
+          if (existingUser?.registrationPhase === "rejected") {
+            //decline
+            navigate("/inreview");
+          } else if (existingUser.isDeleted === true) {
+            navigate("/reapprove");
+          } else if (
+            existingUser.accessType === "0" ||
+            existingUser.accessType === "1"
+          ) {
+            navigate(`/admin/dashboard`);
+            // } else if (existingUser.registrationPhase === "rejected") {
+            //   navigate(`/waiting-or-rejected`);
+          } else if (
+            existingUser.registrationPage === "6" &&
+            existingUser.registrationPhase === "notapproved"
+          ) {
+            navigate(`/waiting`);
+          } else if (
+            existingUser.registrationPage !== "" &&
+            existingUser.registrationPhase === "registering"
+          ) {
+            navigate(`/registration-form/${existingUser.registrationPage}`, {
+              state: passPage,
+            });
+          } else {
+            navigate("/verifying/user/auth");
+            // window.location.reload();
+          }
         } else {
-          const response = await apiurl.post("/auth/signin", { num : userData?.createdBy[0]?.email  });
-          const { existingUser, token, message, user: userData, isNotification, isAdminNotification } = response.data;
-          dispatch(isNotificationsState(isNotification))
-          dispatch(isAdminNotificationState(isAdminNotification))
+          navigate("/signup", { state: { userNum: email } });
+        }
 
-          dispatch(setUser({ userData: { ...userData } }));
-          dispatch(setAuthTokenCookie(token));
-            if (existingUser) {
-            if(existingUser?.registrationPhase === "rejected"){   //decline
-                    navigate("/inreview")
-            }else if (existingUser?.isDeleted === true) {
-                navigate("/reapprove");
-            } else if (existingUser.accessType === "0" || existingUser.accessType === "1") {
-                navigate(`/admin/dashboard`);
+        return false;
+      } else {
+        const response = await apiurl.post("/auth/signin", {
+          email: userData?.createdBy[0]?.email,
+        });
+        const {
+          existingUser,
+          token,
+          message,
+          user: userData,
+          isNotification,
+          isAdminNotification,
+        } = response.data;
+        dispatch(isNotificationsState(isNotification));
+        dispatch(isAdminNotificationState(isAdminNotification));
+
+        dispatch(setUser({ userData: { ...userData } }));
+        dispatch(setAuthTokenCookie(token));
+        console.log(existingUser, "testing2")
+
+        if (existingUser) {
+          if (existingUser?.registrationPhase === "rejected") {
+            //decline
+            navigate("/inreview");
+          } else if (existingUser?.isDeleted === true) {
+            navigate("/reapprove");
+          } else if (
+            existingUser.accessType === "0" ||
+            existingUser.accessType === "1"
+          ) {
+            navigate(`/admin/dashboard`);
             // } else if (existingUser.registrationPhase === "rejected") {       //review
             //   navigate(`/registration-form/1`);
-            } else if (existingUser.registrationPage === "6" && existingUser.registrationPhase === "notapproved") {
-                navigate(`/waiting`);
-            } else if (existingUser.registrationPage !== "" && existingUser.registrationPhase === "registering") {
-                navigate(`/registration-form/${existingUser.registrationPage}`, {state: passPage});
-            } else {
-
-             waitForRouteStringAndNavigate();
-
-            }
-            }
+          } else if (
+            existingUser.registrationPage === "6" &&
+            existingUser.registrationPhase === "notapproved"
+          ) {
+            navigate(`/waiting`);
+          } else if (
+            existingUser.registrationPage !== "" &&
+            existingUser.registrationPhase === "registering"
+          ) {
+            navigate(`/registration-form/${existingUser.registrationPage}`, {
+              state: passPage,
+            });
+          } else {
+            waitForRouteStringAndNavigate();
+          }
         }
-        } catch (error) {
-      if( error?.response?.data?.message === "You are banned"){
-        navigate("/banned")
       }
-        console.error("Login failed:", error);
+    } catch (error) {
+      if (error?.response?.data?.message === "You are banned") {
+        navigate("/banned");
+      }
+      console.error("Login failed:", error);
+    }
+  };
 
-        }
-    };
+  // console.log(userData, "verifl")
 
-    // console.log(userData, "verifl")
-
-
-   if (!isAuthTokenValid() || (userData && userData?.createdBy[0]?.email)) {
-  return (
-    <>
-      {/* Marquee */}
-      <div className="absolute pt-9 md:block sm:hidden hidden md:mt-20">
-        <Marquee
-          autoFill
-          speed={100}
-          loop={0}
-          gradientWidth={500}
-          className="w-full bg-red-0 inset-0 opacity-70 mb-[4rem] px-16 py-9"
-        >
-          <div className="flex justify-around items-center gap-[2rem]">
-            {image.map((data) => (
-              <img
-                key={data.link}
-                src={data.link}
-                alt="img"
-                className="w-[20rem] h-[20rem] object-cover rounded-xl ml-9 zoom cursor-pointer"
-              />
-            ))}
-          </div>
-        </Marquee>
-      </div>
-
-      {/* Centered otp ui */}
-      {isShow ? (
-        <div className="flex items-center justify-center min-h-screen relative">
-          <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
-            <Link
-              to="/"
-              className="absolute right-6 top-5 text-[20px] cursor-pointer"
-            >
-              <RxCross2 />
-            </Link>
-            <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-              Verify the Email Id
-            </p>
-            <p className="text-center text-gray-500 text-[14px]">
-              OTP has been sent on {isEmail}
-            </p>
-
-            <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-9">
-              <input
-                type="text"
-                className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
-                placeholder="Enter Otp"
-                name="otp"
-                value={isOtp}
-                onChange={(e) => setIsOtp(e.target.value)}
-              />
+  // if (!isAuthTokenValid() || (userData && userData?.createdBy[0]?.email)) {
+    return (
+      <>
+        {/* Marquee */}
+        <div className="absolute pt-9 md:block sm:hidden hidden md:mt-20">
+          <Marquee
+            autoFill
+            speed={100}
+            loop={0}
+            gradientWidth={500}
+            className="w-full bg-red-0 inset-0 opacity-70 mb-[4rem] px-16 py-9"
+          >
+            <div className="flex justify-around items-center gap-[2rem]">
+              {image.map((data) => (
+                <img
+                  key={data.link}
+                  src={data.link}
+                  alt="img"
+                  className="w-[20rem] h-[20rem] object-cover rounded-xl ml-9 zoom cursor-pointer"
+                />
+              ))}
             </div>
-            <span className="flex justify-between items-center mt-3 text-[14px]">
-              <span>{formatTime(timer)}</span>
-              <span
-                onClick={timer === 0 ? handleResendOtp : null}
-                className={`cursor-pointer ${
-                  timer > 0
-                    ? "text-gray-400 cursor-not-allowed"
-                    : "text-primary hover:underline"
-                }`}
+          </Marquee>
+        </div>
+
+        {/* Centered otp ui */}
+        {isShow ? (
+          <div className="flex items-center justify-center min-h-screen relative">
+            <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
+              <Link
+                to="/"
+                className="absolute right-6 top-5 text-[20px] cursor-pointer"
               >
-                Resend Otp
+                <RxCross2 />
+              </Link>
+              <p className="text-center font-DMsans text-black font-semibold text-[25px]">
+                Verify the Email Id
+              </p>
+              <p className="text-center text-gray-500 text-[14px]">
+                OTP has been sent on {isEmail}
+              </p>
+
+              <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-9">
+                <input
+                  type="text"
+                  className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
+                  placeholder="Enter Otp"
+                  name="otp"
+                  value={isOtp}
+                  onChange={(e) => setIsOtp(e.target.value)}
+                />
+              </div>
+              <span className="flex justify-between items-center mt-3 text-[14px]">
+                <span>{formatTime(timer)}</span>
+                <span
+                  onClick={timer === 0 ? handleResendOtp : null}
+                  className={`cursor-pointer ${
+                    timer > 0
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-primary hover:underline"
+                  }`}
+                >
+                  Resend Otp
+                </span>
               </span>
-            </span>
-            <p
-              onClick={handleVerifyOtp}
-              className="text-center mt-6 bg-primary text-white py-3 rounded-md cursor-pointer"
-            >
-              Verify
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center min-h-screen relative">
-          <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
-            <Link
-              to="/"
-              className="absolute right-6 top-5 text-[20px] cursor-pointer"
-            >
-              <RxCross2 />
-            </Link>
-            <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-              Verify the Email Id
-            </p>
-
-            <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
-              <p>Email Id</p>
-
-              <input
-                type="text"
-                className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
-                placeholder="Enter your email"
-                name="email"
-                value={isEmail}
-                onChange={(e) => setIsEmail(e.target.value)}
-              />
+              <p
+                onClick={handleVerifyOtp}
+                className="text-center mt-6 bg-primary text-white py-3 rounded-md cursor-pointer"
+              >
+                Verify
+              </p>
             </div>
-            <p
-              onClick={handleSubmit}
-              className="text-center mt-9 bg-primary text-white py-3 rounded-md cursor-pointer"
-            >
-              Submit
-            </p>
           </div>
-        </div>
-      )}
-    </>
-  );
-};
-}
+        ) : (
+          <div className="flex items-center justify-center min-h-screen relative">
+            <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
+              <Link
+                to="/"
+                className="absolute right-6 top-5 text-[20px] cursor-pointer"
+              >
+                <RxCross2 />
+              </Link>
+              <p className="text-center font-DMsans text-black font-semibold text-[25px]">
+                Verify the Email Id
+              </p>
+
+              <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
+                <p>Email Id</p>
+
+                <input
+                  type="text"
+                  className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
+                  placeholder="Enter your email"
+                  name="email"
+                  value={isEmail}
+                  onChange={(e) => setIsEmail(e.target.value)}
+                />
+              </div>
+              <p
+                onClick={handleSubmit}
+                className="text-center mt-9 bg-primary text-white py-3 rounded-md cursor-pointer"
+              >
+                Submit
+              </p>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
 export default VerifyNumber;

@@ -6,6 +6,7 @@ import ChangeRegPopUp from "./components/ChangeRegPopUp";
 import { useSelector } from "react-redux";
 import { userDataStore } from "../../Stores/slices/AuthSlice";
 import apiurl from "../../util";
+import { toast } from "react-toastify";
 
 const RegNumber = () => {
   // const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const RegNumber = () => {
   const handleNumberChange = async () => {
     if (userId) {
       try {
-       await apiurl.post(`/generate-link-for-number`, {
+       await apiurl.post(`/generate-link-for-email`, {
         
           userId
         });

@@ -176,7 +176,7 @@ const MobileSidebar = memo(({ isPopupOpen, closePopup, updateBrowserId }) => {
                           "res-sidebar-active"
                         }`}
                       >
-                        Change Registered Number
+                        Change Registered Email
                       </li>
                     </Link>
                     <Link to="/settings/email">
