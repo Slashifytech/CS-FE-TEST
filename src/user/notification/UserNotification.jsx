@@ -199,12 +199,12 @@ const NotificationLink = ({ notification, userId }) => {
 
 const NotificationReceiver = () => {
   const { userId } = useSelector(userDataStore);
+  const routeString = localStorage.getItem('enString')
+
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
-  const routeString = localStorage.getItem('enString')
-
   const dispatch = useDispatch();
   dispatch(isNotNotification());
 

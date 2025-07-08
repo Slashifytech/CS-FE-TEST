@@ -92,7 +92,7 @@ export const stringForRoute = async () => {
       throw new Error("Invalid decrypted JSON format");
     }
 
-    console.log("expirecheck", tokenExpired);
+    // console.log("expirecheck", tokenExpired);
 
     if (token && !tokenExpired) {
       const decodedUserData = jwtDecode(token);
@@ -106,7 +106,7 @@ export const stringForRoute = async () => {
       localStorage.setItem("enString", data.encryptedData);
     }
 
-    console.log('Verification successful:', data);
+    // console.log('Verification successful:', data);
     return data.encryptedData;
 
   } catch (error) {

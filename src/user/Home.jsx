@@ -40,17 +40,17 @@ const Home = () => {
         clearInterval(checkInterval);
         setTimeout(() => {
           navigate(`/user-dashboard/${route}`);
-        }, 500); 
+        }, 300); 
       }
     }, 200);
   };
   
   const navigate = useNavigate();
-  const isAuthTokenValid = () => {
+  const isAuthTokenValid = (action) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       localStorage.removeItem("authToken");
-      navigate("/verify-number")
+      navigate("/verify-number", { state: { action } });
       return false;
     }
     try {
@@ -60,7 +60,7 @@ const Home = () => {
       const timeDifference = expiryTime - currentTime;
       if (timeDifference <= 0) {
         localStorage.removeItem("authToken");
-      navigate("/verify-number")
+      navigate("/verify-number", { state: { action } });
 
         return false;
       }
@@ -68,7 +68,7 @@ const Home = () => {
       return true;
     } catch (error) {
       localStorage.removeItem("authToken");
-      navigate("/verify-number")
+      navigate("/verify-number", { state: { action } });
 
       return false;
     }
@@ -76,12 +76,12 @@ const Home = () => {
 
   const passPage = "passPage";
 
-  const handleVerify = async (user) => {
+  const handleVerify = async (user, action) => {
     try {
       if (!localStorage.getItem("authToken")) {
-        navigate("/verify-number");
+      navigate("/verify-number", { state: { action } });
       }
-      if (!isAuthTokenValid() || userData === null) {
+      if (!isAuthTokenValid(action) || userData === null) {
         if (user) {
           let num;
           if (user.mobile && user.mobile.number) {
@@ -221,13 +221,13 @@ const Home = () => {
           <span className="flex justify-end items-center flex-1">
             <span
               className="border-[1px] mx-6 border-[#A92525] p-1 px-3 rounded-lg text-[#A92525] cursor-pointer hover:bg-[#A92525] hover:text-white"
-              onClick={handleVerify}
+  onClick={() => handleVerify(null, "signup")}
             >
               Sign up
             </span>
             <span
               className="background p-[7px] px-5 rounded-xl text-white cursor-pointer"
-              onClick={handleVerify}
+  onClick={() => handleVerify(null, "login")}
             >
               Log in
             </span>
@@ -272,13 +272,13 @@ const Home = () => {
             </p>
             <span className="flex flex-row items-center font-DMsans mt-9 gap-9">
               <span
-                onClick={handleVerify}
+  onClick={() => handleVerify(null, "signup")}
                 className="border popimg border-primary text-primary px-6 py-2 cursor-pointer rounded-lg"
               >
                 Sign up
               </span>
               <span
-                onClick={handleVerify}
+  onClick={() => handleVerify(null, "login")}
                 className="px-7 py-[10px] bg-primary text-white cursor-pointer rounded-lg popimg"
               >
                 Log in

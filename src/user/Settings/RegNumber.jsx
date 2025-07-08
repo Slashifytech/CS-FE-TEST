@@ -56,7 +56,7 @@ const RegNumber = () => {
       <div className="shadow md:px-9 py-3 px-6 mb-36 md:mb-5 md:mx-28 my-5 rounded-md md:ml-96 sm:ml-72 sm:mt-36 sm:mb-9 md:mt-40 mt-7 mx-6">
         <span>
           <p className="font-semibold font-montserrat mt-8 text-[22px]">
-            Change Registered Number
+            Change Registered Email
           </p>
           {/* {!showInput && ( */}
             <div className="flex items-center justify-start gap-5  mb-9 font-DMsans mt-8">

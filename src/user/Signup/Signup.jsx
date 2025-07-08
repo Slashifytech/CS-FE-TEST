@@ -248,9 +248,12 @@ const Signup = () => {
                 htmlFor="username"
                 className="block text-sm font-semibold text-[#262626] font-DMsans text-start mb-2 mt-2"
               >
-                Contact Number
+                Email
               </label>
-              <label>
+              <div>
+               <input type="text" className="py-2 px-2 w-full border bg-[#F0F0F0]" value={signup.email}/></div>
+
+              {/* <label>
                 <PhoneInput
                   className="mt-3 mb-9 "
                   containerStyle={{ width: "100%" }}
@@ -274,12 +277,12 @@ const Signup = () => {
                 <p className="text-start text-[12px] text-red-600">
                   Please enter a valid phone number*
                 </p>
-              )}
+              )} */}
             </span>
             <span>
               <span
                 onClick={handleSignup}
-                className="w-full bg-[#A92525] block text-white py-3 cursor-pointer rounded-lg"
+                className="w-full bg-[#A92525] block text-white py-3 mt-9 cursor-pointer rounded-lg"
               >
                 Continue
               </span>

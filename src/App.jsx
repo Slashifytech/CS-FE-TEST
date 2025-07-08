@@ -8,7 +8,7 @@ import Consent from "./user/Signup/Consent";
 import { RegistrationFile } from "./user/Registration";
 import BasicSearch from "./user/search/BasicSearch";
 import IdSearch from "./user/search/IdSearch";
-import { AllMatch, NewJoin, SearchResult, Shortlisted } from "./user/matches";
+import { AllMatch, NewJoin, SearchResult, Shortlisted } from "./user/matches"
 import ProfileReq from "./user/Inbox/ProfileReq";
 import ActivityCard from "./user/Dashboard/UserDashboard";
 import Thankyou from "./user/Registration/Thankyou";
@@ -84,6 +84,7 @@ import UserReport from "./Admin/UserReport";
 import { stringForRoute } from "./Stores/service/Genricfunc";
 import { storeRouteString } from "./Stores/slices/RouteEncryptSlice";
 import VerificationLoader from "./user/verification/VerificationLoader";
+import Maintanance from "./user/verification/Maintanance";
 
 const socket = io(import.meta.env.VITE_APP_DEV_BASE_URL);
 
@@ -94,6 +95,7 @@ const DeletedUserRoutes = () => (
     <Route path="/waiting" element={<BeforeApprovalPage />} />
     <Route path="/form-submitted" element={<Thankyou />} />
     <Route path="/inreview" element={<ReviewAlert />} />
+    <Route path="/maintainance" element={<Maintanance />} />
 
     <Route path="/signup" element={<Signup />} />
     <Route path="/verify-number" element={<VerifyNumber />} />
@@ -109,6 +111,8 @@ const DeletedUserRoutes = () => (
 const DefaultRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/maintainance" element={<Maintanance />} />
+
     <Route path="/verifying/user/auth" element={<VerificationLoader />} />
 
     <Route path="/signup" element={<Signup />} />
@@ -131,6 +135,7 @@ const DefaultRoutes = () => (
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
+    <Route path="/maintainance" element={<Maintanance />} />
 
     <Route path="admin/dashboard" element={<Dashboard />} />
     <Route path="admin/user" element={<User />} />
@@ -193,6 +198,7 @@ const UserRoutes = ({routeString}) => (
     <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/verifying/user/auth" element={<VerificationLoader />} />
 
+    <Route path="/maintainance" element={<Maintanance />} />
 
     <Route path={`/user-dashboard/${routeString}`} element={<ActivityCard />} />
     <Route path="/basic-search" element={<BasicSearch />} />
@@ -242,7 +248,6 @@ function App() {
 
   const { isThere, isAdminThere } = useSelector(notificationStore);
   const routeString = localStorage.getItem('enString')
-  console.log(routeString, "stringcheck")
   const authToken = localStorage.getItem('authToken')
   const { userData, userId } = useSelector(userDataStore);
   const [accessType, setAccessType] = useState(null);
