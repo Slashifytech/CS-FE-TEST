@@ -291,6 +291,9 @@ const VerifyNumber = () => {
   const handleVerifyOtp = async () => {
     try {
       const res = await VerifyOtp(isEmail, isOtp);
+      if(res?.data?.shouldLogin){
+        handleVerify()
+      }
       toast.success(res.data.message || "Otp Verified successfully");
     } catch (error) {
       console.log("Something went wrong", error);
@@ -315,7 +318,7 @@ const VerifyNumber = () => {
           }
           return prev - 1;
         });
-        phone;
+        
       }, 1000);
     }
     return () => clearInterval(interval);
@@ -324,7 +327,7 @@ const VerifyNumber = () => {
 
       const handleVerify = async (user) => {
         try {
-        if (!isAuthTokenValid() || userData === null || userData?.createdBy?.email) {
+        if (!isAuthTokenValid() || userData === null || userData?.createdBy[0]?.email) {
             // console.log("entered");
             // console.log(user);
             if (user) {
@@ -371,7 +374,7 @@ const VerifyNumber = () => {
             }
             return false;
         } else {
-          const response = await apiurl.post("/auth/signin", { num : userData?.createdBy[0]?.phone  });
+          const response = await apiurl.post("/auth/signin", { num : userData?.createdBy[0]?.email  });
           const { existingUser, token, message, user: userData, isNotification, isAdminNotification } = response.data;
           dispatch(isNotificationsState(isNotification))
           dispatch(isAdminNotificationState(isAdminNotification))
@@ -410,7 +413,7 @@ const VerifyNumber = () => {
     // console.log(userData, "verifl")
 
 
- 
+   if (!isAuthTokenValid() || (userData && userData?.createdBy[0]?.email)) {
   return (
     <>
       {/* Marquee */}
@@ -520,5 +523,5 @@ const VerifyNumber = () => {
     </>
   );
 };
-
+}
 export default VerifyNumber;
