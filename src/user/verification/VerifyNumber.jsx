@@ -254,7 +254,7 @@ const VerifyNumber = () => {
   const [isEmail, setIsEmail] = useState("");
   const [isOtp, setIsOtp] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(300);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = async () => {
@@ -309,7 +309,7 @@ const VerifyNumber = () => {
   useEffect(() => {
     let interval;
     if (isShow) {
-      setTimer(20);
+      setTimer(300);
       interval = setInterval(() => {
         setTimer((prev) => {
           if (prev <= 1) {
