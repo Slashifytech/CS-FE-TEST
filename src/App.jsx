@@ -219,7 +219,7 @@ const UserRoutes = ({routeString}) => (
     <Route path="/settings/block-profile" element={<BlockProfile />} />
     <Route path="/settings/whatsapp" element={<WhatSappSetting />} />
     <Route path="/settings/delete-profile" element={<DelAccount />} />
-    <Route path="/settings/phonenumber" element={<RegNumber />} />
+    <Route path="/settings/email-change" element={<RegNumber />} />
     <Route path="/settings/email" element={<SubsEmail />} />
     <Route path="/settings/notification-sub" element={<NotificationSubs />} />
 

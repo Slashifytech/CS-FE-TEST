@@ -167,12 +167,12 @@ const MobileSidebar = memo(({ isPopupOpen, closePopup, updateBrowserId }) => {
                         Updated Contact Information
                       </li>
                     </Link>
-                    <Link to="/settings/phonenumber">
+                    <Link to="/settings/email-change">
                       {" "}
                       <li
                         onClick={closePopup}
                         className={`mt-2 py-1 px-2 text-black rounded-lg cursor-pointer ${
-                          path === "/settings/phonenumber" &&
+                          path === "/settings/email-change" &&
                           "res-sidebar-active"
                         }`}
                       >

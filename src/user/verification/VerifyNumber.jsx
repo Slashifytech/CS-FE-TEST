@@ -256,23 +256,39 @@ const VerifyNumber = () => {
   const [isOtp, setIsOtp] = useState("");
   const [isShow, setIsShow] = useState(false);
   const [timer, setTimer] = useState(300);
+  const [iswait, setIswait] = useState(false);
+  const [isVerify, setIsVerify] = useState(false);
+  const passPage = "passPage"
+  const { userData } = useSelector(userDataStore);
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     if (!emailRegex.test(isEmail)) {
       toast.error("Please enter a valid email address");
       return;
     }
+    if (!isEmail) {
+      toast.error("Please enter an email.");
+      return;
+    }
+
     try {
+      setIswait(true);
       const res =
         identity === "signup"
           ? await VerifyEmailSignup(isEmail)
           : await VerifyEmailLogin(isEmail);
       setIsShow(true);
+      setIswait(false);
+
       toast.success(res.data.message || "Otp sent to your email");
     } catch (error) {
       console.log("Something went wrong", error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setIswait(false);
     }
   };
   const handleResendOtp = async () => {
@@ -283,7 +299,7 @@ const VerifyNumber = () => {
           : await VerifyEmailLogin(isEmail);
 
       toast.success(res.data.message || "Otp resent successfully");
-
+      setIswait(false);
       setTimer(300);
     } catch (error) {
       console.log("Resend failed", error);
@@ -291,16 +307,24 @@ const VerifyNumber = () => {
   };
 
   const handleVerifyOtp = async () => {
+    if (!isOtp) {
+      toast.error("Please enter the OTP.");
+      return;
+    }
     try {
+      setIsVerify(true);
       const res = await VerifyOtp(isEmail, isOtp);
 
       if (res?.data?.shouldLogin || res?.data?.shouldSignup) {
-    await handleVerify(isEmail);
+        await handleVerify(isEmail);
       }
-      console.log(res , "test")
+      setIswait(false);
       toast.success(res.data.message || "Otp Verified successfully");
     } catch (error) {
       console.log("Something went wrong", error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsShow(false);
     }
   };
 
@@ -351,7 +375,7 @@ const VerifyNumber = () => {
         dispatch(setUser({ userData: { ...userData } }));
         dispatch(setAuthTokenCookie(token));
         // navigate("/l'
-        console.log(existingUser, "testing")
+        console.log(existingUser, "testing");
         if (existingUser) {
           if (existingUser?.registrationPhase === "rejected") {
             //decline
@@ -372,7 +396,7 @@ const VerifyNumber = () => {
             navigate(`/waiting`);
           } else if (
             existingUser.registrationPage !== "" &&
-            existingUser.registrationPhase === "registering"
+            existingUser.registrationPhase === "registering" 
           ) {
             navigate(`/registration-form/${existingUser.registrationPage}`, {
               state: passPage,
@@ -403,7 +427,7 @@ const VerifyNumber = () => {
 
         dispatch(setUser({ userData: { ...userData } }));
         dispatch(setAuthTokenCookie(token));
-        console.log(existingUser, "testing2")
+        console.log(existingUser, "testing2");
 
         if (existingUser) {
           if (existingUser?.registrationPhase === "rejected") {
@@ -446,114 +470,131 @@ const VerifyNumber = () => {
   // console.log(userData, "verifl")
 
   // if (!isAuthTokenValid() || (userData && userData?.createdBy[0]?.email)) {
-    return (
-      <>
-        {/* Marquee */}
-        <div className="absolute pt-9 md:block sm:hidden hidden md:mt-20">
-          <Marquee
-            autoFill
-            speed={100}
-            loop={0}
-            gradientWidth={500}
-            className="w-full bg-red-0 inset-0 opacity-70 mb-[4rem] px-16 py-9"
-          >
-            <div className="flex justify-around items-center gap-[2rem]">
-              {image.map((data) => (
-                <img
-                  key={data.link}
-                  src={data.link}
-                  alt="img"
-                  className="w-[20rem] h-[20rem] object-cover rounded-xl ml-9 zoom cursor-pointer"
-                />
-              ))}
+  return (
+    <>
+      {/* Marquee */}
+      <div className="absolute pt-9 md:block sm:hidden hidden md:mt-20">
+        <Marquee
+          autoFill
+          speed={100}
+          loop={0}
+          gradientWidth={500}
+          className="w-full bg-red-0 inset-0 opacity-70 mb-[4rem] px-16 py-9"
+        >
+          <div className="flex justify-around items-center gap-[2rem]">
+            {image.map((data) => (
+              <img
+                key={data.link}
+                src={data.link}
+                alt="img"
+                className="w-[20rem] h-[20rem] object-cover rounded-xl ml-9 zoom cursor-pointer"
+              />
+            ))}
+          </div>
+        </Marquee>
+      </div>
+
+      {/* Centered otp ui */}
+      {isShow ? (
+        <div
+          className="flex items-center justify-center min-h-screen relative"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleVerifyOtp();
+            }
+          }}
+          tabIndex={0}
+        >
+          {" "}
+          <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative sm:mx-6 mx-6">
+            <Link
+              to="/"
+              className="absolute right-6 top-5 text-[20px] cursor-pointer"
+            >
+              <RxCross2 />
+            </Link>
+            <p className="text-center font-DMsans text-black font-semibold text-[25px]">
+              Verify the Email Id
+            </p>
+            <p className="text-center text-gray-500 text-[14px]">
+              OTP has been sent on {isEmail}
+            </p>
+
+            <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-9">
+              <input
+                type="text"
+                className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
+                placeholder="Enter Otp"
+                name="otp"
+                value={isOtp}
+                onChange={(e) => setIsOtp(e.target.value)}
+              />
             </div>
-          </Marquee>
-        </div>
-
-        {/* Centered otp ui */}
-        {isShow ? (
-          <div className="flex items-center justify-center min-h-screen relative">
-            <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
-              <Link
-                to="/"
-                className="absolute right-6 top-5 text-[20px] cursor-pointer"
+            <span className="flex justify-between items-center mt-3 text-[14px]">
+              <span>{formatTime(timer)}</span>
+              <span
+                onClick={timer === 0 ? handleResendOtp : null}
+                className={`cursor-pointer ${
+                  timer > 0
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-primary hover:underline"
+                }`}
               >
-                <RxCross2 />
-              </Link>
-              <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-                Verify the Email Id
-              </p>
-              <p className="text-center text-gray-500 text-[14px]">
-                OTP has been sent on {isEmail}
-              </p>
-
-              <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-9">
-                <input
-                  type="text"
-                  className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
-                  placeholder="Enter Otp"
-                  name="otp"
-                  value={isOtp}
-                  onChange={(e) => setIsOtp(e.target.value)}
-                />
-              </div>
-              <span className="flex justify-between items-center mt-3 text-[14px]">
-                <span>{formatTime(timer)}</span>
-                <span
-                  onClick={timer === 0 ? handleResendOtp : null}
-                  className={`cursor-pointer ${
-                    timer > 0
-                      ? "text-gray-400 cursor-not-allowed"
-                      : "text-primary hover:underline"
-                  }`}
-                >
-                  Resend Otp
-                </span>
+                Resend Otp
               </span>
-              <p
-                onClick={handleVerifyOtp}
-                className="text-center mt-6 bg-primary text-white py-3 rounded-md cursor-pointer"
-              >
-                Verify
-              </p>
-            </div>
+            </span>
+            <p
+              onClick={handleVerifyOtp}
+              className="text-center mt-6 bg-primary text-white py-3 rounded-md cursor-pointer"
+            >
+              {isVerify ? "Verifying..." : "Verify"}
+            </p>
           </div>
-        ) : (
-          <div className="flex items-center justify-center min-h-screen relative">
-            <div className="bg-white pb-9 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
-              <Link
-                to="/"
-                className="absolute right-6 top-5 text-[20px] cursor-pointer"
-              >
-                <RxCross2 />
-              </Link>
-              <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-                Verify the Email Id
-              </p>
+        </div>
+      ) : (
+        <div
+          className="flex items-center justify-center min-h-screen relative"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+          }}
+          tabIndex={0}
+        >
+          <div className="bg-white pb-9 sm:mx-6 mx-6 shadow rounded-lg md:w-[38%] w-full p-10 app-open-animation relative">
+            <Link
+              to="/"
+              className="absolute right-6 top-5 text-[20px] cursor-pointer"
+            >
+              <RxCross2 />
+            </Link>
+            <p className="text-center font-DMsans text-black font-semibold text-[25px]">
+              Verify the Email Id
+            </p>
 
-              <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
-                <p>Email Id</p>
+            <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
+              <p>Email Id</p>
 
-                <input
-                  type="text"
-                  className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={isEmail}
-                  onChange={(e) => setIsEmail(e.target.value)}
-                />
-              </div>
-              <p
-                onClick={handleSubmit}
-                className="text-center mt-9 bg-primary text-white py-3 rounded-md cursor-pointer"
-              >
-                Submit
-              </p>
+              <input
+                type="text"
+                className="mt-[-13px] w-full px-2 py-2 border bg-slate-200 rounded"
+                placeholder="Enter your email"
+                name="email"
+                value={isEmail}
+                onChange={(e) => setIsEmail(e.target.value)}
+              />
             </div>
+            <p
+              onClick={handleSubmit}
+              className="text-center mt-9 bg-primary text-white py-3 rounded-md cursor-pointer"
+            >
+              {iswait ? "Sending Otp..." : "Submit"}
+            </p>
           </div>
-        )}
-      </>
-    );
-  }
+        </div>
+      )}
+    </>
+  );
+};
 
 export default VerifyNumber;

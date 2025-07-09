@@ -71,7 +71,7 @@ const Header = () => {
           path === "/image-edit" ||
           path === "/settings/contact-info" ||
           path === "/settings/delete-profile" ||
-          path === "/settings/phonenumber" ||
+          path === "/settings/email-change" ||
           path === "/settings/email",
       },
       {

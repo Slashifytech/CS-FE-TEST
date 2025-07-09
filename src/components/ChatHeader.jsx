@@ -74,7 +74,7 @@ const ChatHeader = () => {
                       path === "/image-edit" ||
                       path === "/settings/contact-info" ||
                       path === "/settings/delete-profile" ||
-                      path === "/settings/phonenumber" ||
+                      path === "/settings/email-change" ||
                       path === "/settings/email") &&
                     "activeheader"
                   }`}
@@ -239,7 +239,7 @@ const ChatBottomNav = () => {
                     location.pathname === "/settings/contact-info" ||
                     location.pathname === "/settings/delete-profile" ||
                     location.pathname === "/settings/block-profile" ||
-                    location.pathname === "/settings/phonenumber" ||
+                    location.pathname === "/settings/email-change" ||
                     location.pathname === "/settings/email") &&
                   "activeheader-mobile"
                 }`}
@@ -252,7 +252,7 @@ const ChatBottomNav = () => {
                   location.pathname === "/settings/contact-info" ||
                   location.pathname === "/settings/block-profile" ||
                   location.pathname === "/settings/delete-profile" ||
-                  location.pathname === "/settings/phonenumber" ||
+                  location.pathname === "/settings/email-change" ||
                   location.pathname === "/settings/email") && (
                   <span>Dashboard</span>
                 )}

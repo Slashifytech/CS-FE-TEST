@@ -225,10 +225,10 @@ const SideBar = ({ updateBrowserId }) => {
                         Updated Contact Information
                       </li>
                     </Link>
-                    <Link to="/settings/phonenumber">
+                    <Link to="/settings/email-change">
                       <li
                         className={`mt-2 py-1 px-2 hover:bg-white hover:text-primary rounded-lg cursor-pointer ${
-                          path === "/settings/phonenumber" && "sidebar-active"
+                          path === "/settings/email-change" && "sidebar-active"
                         }`}
                       >
                         Change Registered Email
