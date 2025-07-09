@@ -19,6 +19,8 @@ const EmailPopUp = ({ deleteData, isOpenPopUp, closeDelete }) => {
     deleteData();
     setDeleteProfile(true)
        localStorage.removeItem("authToken");
+             localStorage.removeItem("enString");
+
     toast.success("Profile deleted successfully");
     localStorage.removeItem('authToken')
   

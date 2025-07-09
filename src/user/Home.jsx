@@ -50,6 +50,8 @@ const Home = () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       localStorage.removeItem("authToken");
+            localStorage.removeItem("enString");
+
       navigate("/verify-email", { state: { action } });
       return false;
     }
@@ -60,6 +62,8 @@ const Home = () => {
       const timeDifference = expiryTime - currentTime;
       if (timeDifference <= 0) {
         localStorage.removeItem("authToken");
+              localStorage.removeItem("enString");
+
       navigate("/verify-email", { state: { action } });
 
         return false;
@@ -68,6 +72,8 @@ const Home = () => {
       return true;
     } catch (error) {
       localStorage.removeItem("authToken");
+            localStorage.removeItem("enString");
+
       navigate("/verify-email", { state: { action } });
 
       return false;

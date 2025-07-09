@@ -46,7 +46,7 @@ export const getUser = async (userId) => {
       }
     }
 
-    console.log(data, "datacheck");
+    // console.log(data, "datacheck");
     return data;
   } catch (err) {
     console.log(err);

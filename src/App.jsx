@@ -390,6 +390,8 @@ function App() {
     socket.on(`DELETE_TOKEN_FOR_USER/${userId}`, (data) => {
       // console.log(data);
       localStorage.removeItem("authToken");
+      localStorage.removeItem("enString");
+
       navigate("/");
     });
   }, [socket, userId]);

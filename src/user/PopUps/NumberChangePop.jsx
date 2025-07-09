@@ -29,6 +29,8 @@ const NumberChangePop = () => {
         config
       );
       localStorage.removeItem("authToken");
+            localStorage.removeItem("enString");
+
       toast.success("Email changed successfully");
       navigate("/updated-registered-email");
     } catch (error) {
