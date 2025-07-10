@@ -256,7 +256,7 @@ const VerifyNumber = () => {
   const [isEmail, setIsEmail] = useState("");
   const [isOtp, setIsOtp] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(300);
   const [iswait, setIswait] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const passPage = "passPage";
@@ -348,7 +348,7 @@ useEffect(() => {
 const countdownRef = useRef();
 
 const startCountdown = () => {
-  setTimer(20);
+  setTimer(300);
   if (countdownRef.current) clearInterval(countdownRef.current);
   countdownRef.current = setInterval(() => {
     setTimer((prev) => {
