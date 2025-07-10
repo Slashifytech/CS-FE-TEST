@@ -648,8 +648,7 @@ const Form2 = ({ page, stateCheck }) => {
               </p>
             )}
             <span className="text-primary text-[13px] font-DMsans absolute top-24">
-              This number will be visible on your profile for people to connect.
-              This can be the same or different from your registration number
+             This number will be visible on your profile along with your registered email id for people to connect.
             </span>
           </div>
 

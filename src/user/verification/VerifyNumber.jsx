@@ -25,6 +25,7 @@ import {
   VerifyOtp,
 } from "../../Stores/service/AuthAPi";
 import { toast } from "react-toastify";
+import { useRef } from "react";
 const isAuthTokenValid = () => {
   const token = localStorage.getItem("authToken");
   if (!token) {
@@ -255,10 +256,10 @@ const VerifyNumber = () => {
   const [isEmail, setIsEmail] = useState("");
   const [isOtp, setIsOtp] = useState("");
   const [isShow, setIsShow] = useState(false);
-  const [timer, setTimer] = useState(300);
+  const [timer, setTimer] = useState(20);
   const [iswait, setIswait] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
-  const passPage = "passPage"
+  const passPage = "passPage";
   const { userData } = useSelector(userDataStore);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -292,15 +293,16 @@ const VerifyNumber = () => {
     }
   };
   const handleResendOtp = async () => {
+    setIswait(true);
+
     try {
       const res =
         identity === "signup"
           ? await VerifyEmailSignup(isEmail)
           : await VerifyEmailLogin(isEmail);
-
-      toast.success(res.data.message || "Otp resent successfully");
       setIswait(false);
-      setTimer(300);
+      startCountdown();
+      toast.success(res.data.message || "Otp resent successfully");
     } catch (error) {
       console.log("Resend failed", error);
     }
@@ -334,22 +336,37 @@ const VerifyNumber = () => {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-  useEffect(() => {
-    let interval;
-    if (isShow) {
-      setTimer(300);
-      interval = setInterval(() => {
-        setTimer((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isShow]);
+
+
+useEffect(() => {
+  if (isShow) {
+    startCountdown(); 
+  }
+}, [isShow]);
+
+
+const countdownRef = useRef();
+
+const startCountdown = () => {
+  setTimer(20);
+  if (countdownRef.current) clearInterval(countdownRef.current);
+  countdownRef.current = setInterval(() => {
+    setTimer((prev) => {
+      if (prev <= 1) {
+        clearInterval(countdownRef.current);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
+};
+
+useEffect(() => {
+  return () => {
+    if (countdownRef.current) clearInterval(countdownRef.current);
+  };
+}, []);
+
 
   const handleVerify = async (email) => {
     try {
@@ -396,7 +413,7 @@ const VerifyNumber = () => {
             navigate(`/waiting`);
           } else if (
             existingUser.registrationPage !== "" &&
-            existingUser.registrationPhase === "registering" 
+            existingUser.registrationPhase === "registering"
           ) {
             navigate(`/registration-form/${existingUser.registrationPage}`, {
               state: passPage,
@@ -517,7 +534,8 @@ const VerifyNumber = () => {
               Verify the Email Id
             </p>
             <p className="text-center text-gray-500 text-[14px]">
-              OTP has been sent on {isEmail}
+              <span className="text-[16px]">OTP has been sent on </span>
+              {isEmail}
             </p>
 
             <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-9">
@@ -540,7 +558,7 @@ const VerifyNumber = () => {
                     : "text-primary hover:underline"
                 }`}
               >
-                Resend Otp
+                RESEND OTP
               </span>
             </span>
             <p
@@ -573,7 +591,7 @@ const VerifyNumber = () => {
             </p>
 
             <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
-              <p>Email Id</p>
+              <p>Enter Email Id</p>
 
               <input
                 type="text"
