@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import CustomSlider, { HeightSlider } from "../../components/CustomSlider";
-import { setUser, userDataStore } from "../../Stores/slices/AuthSlice";
+import { setUser, userDatasStore } from "../../Stores/slices/AuthSlice";
 import { RadioInput } from "../../components/CustomInput";
 import {
   getCitiesByState,
@@ -42,7 +42,7 @@ const PersonalDetail = ({
     email: "",
   });
   const { country, state } = useSelector((state) => state.masterData);
-  const { userId } = useSelector(userDataStore);
+  const { userId, userData } = useSelector(userDatasStore);
   const [states, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -255,8 +255,8 @@ const PersonalDetail = ({
       toast.success(response.data.message);
       setIsOpen((prev) => !prev);
       const responses = await apiurl.get(`/auth/getUser/${userId}`);
-      const userData = responses?.data?.user;
-      dispatch(setUser({ userId, userData }));
+      const userDatas = responses?.data?.user;
+      dispatch(setUser({ userId, userDatas }));
 
     } catch (error) {
       toast.error("An error occurred while submitting form data.");
@@ -295,8 +295,8 @@ const PersonalDetail = ({
   // console.log(detailpersonal);
 
   const fetchData = async () => {
-    const userData = profileData[1];
-    if (userData) {
+    const userDatas = profileData[1];
+    if (userDatas) {
       const data = profileData[1];
 
       setDetailPersonal({
@@ -319,8 +319,8 @@ const PersonalDetail = ({
     }
 
 
-    if (userData?.currentlyLivingInCountry) {
-      const countryId = userData?.currentlyLivingInCountry;
+    if (userDatas?.currentlyLivingInCountry) {
+      const countryId = userDatas?.currentlyLivingInCountry;
       const mappedStates = state.map((item) => {
         if (item.country_id === countryId) {
           return {
@@ -331,8 +331,8 @@ const PersonalDetail = ({
       });
       setState(mappedStates);
 
-      if (userData?.currentlyLivingInState) {
-        const stateId = userData?.currentlyLivingInState;
+      if (userDatas?.currentlyLivingInState) {
+        const stateId = userDatas?.currentlyLivingInState;
         const cities = await getCitiesByState(countryId, stateId);
         const mappedCities = cities.map((item) => ({
           cityName: item.city_name,
@@ -470,7 +470,7 @@ const PersonalDetail = ({
                 <p className=" pt-4 font-medium">Email Address</p>
                 <p className="font-light text-[15px]">
                   {" "}
-                  {detailpersonal.email ? detailpersonal.email : "NA"}
+                  {userData?.createdBy[0]?.email? userData?.createdBy[0]?.email:"NA"}
                 </p>
               </>
             ) : (
