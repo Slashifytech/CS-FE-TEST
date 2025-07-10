@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import CustomSlider, { HeightSlider } from "../../components/CustomSlider";
-import { setUser, userDatasStore } from "../../Stores/slices/AuthSlice";
+import { setUser, userDataStore } from "../../Stores/slices/AuthSlice";
 import { RadioInput } from "../../components/CustomInput";
 import {
   getCitiesByState,
@@ -42,7 +42,7 @@ const PersonalDetail = ({
     email: "",
   });
   const { country, state } = useSelector((state) => state.masterData);
-  const { userId, userData } = useSelector(userDatasStore);
+  const { userId, userData } = useSelector(userDataStore);
   const [states, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [isFocused, setIsFocused] = useState(false);

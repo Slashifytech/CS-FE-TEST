@@ -591,7 +591,7 @@ useEffect(() => {
             </p>
 
             <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">
-              <p>Enter Email Id</p>
+              <p>Enter Your Email Id</p>
 
               <input
                 type="text"
