@@ -567,7 +567,7 @@ const Profile = () => {
           <div className="mx-1">
             <PersonalDetail
               showProfile={showProfile}
-              location={location || ""}
+              location={location}
               profileData={profileData}
               againCallFlag={againCallFlag}
               setAgainCallFlag={setAgainCallFlag}

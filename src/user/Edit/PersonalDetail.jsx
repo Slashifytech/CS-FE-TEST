@@ -8,7 +8,7 @@ import {
   getCountries,
   getStatesByCountry,
 } from "../../common/commonFunction";
-import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common";
+import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common"
 
 import { toast } from "react-toastify";
 import { Autocomplete, TextField } from "@mui/material";
@@ -179,7 +179,7 @@ const PersonalDetail = ({
     maritalStatus: "",
     smoking: "",
     contact: "",
-    email: "",
+    // email: "",
     alcohol: "",
   });
 
@@ -218,13 +218,13 @@ const PersonalDetail = ({
       errors.contact = "Contact number is required";
       hasErrors = true;
     }
-    if (
-      typeof detailpersonal.email !== "string" ||
-      !detailpersonal.email.trim()
-    ) {
-      errors.email = "Email is required";
-      hasErrors = true;
-    }
+    // if (
+    //   typeof detailpersonal.email !== "string" ||
+    //   !detailpersonal.email.trim()
+    // ) {
+    //   errors.email = "Email is required";
+    //   hasErrors = true;
+    // }
 
     setFormErrors(errors); // Update the form errors state
     return !hasErrors; // Return true if there are no errors
@@ -274,7 +274,7 @@ const PersonalDetail = ({
     maritalStatus: "Marital Status",
     smoking: "Smoking",
     contact: "Contact",
-    email: "Email",
+    // email: "Email",
     alcohol: "Alcohol",
   };
 
@@ -317,7 +317,6 @@ const PersonalDetail = ({
       const perosnalData = profileData[1];
       setPersonalDatas([perosnalData]);
     }
-
 
     if (userDatas?.currentlyLivingInCountry) {
       const countryId = userDatas?.currentlyLivingInCountry;
@@ -470,7 +469,7 @@ const PersonalDetail = ({
                 <p className=" pt-4 font-medium">Email Address</p>
                 <p className="font-light text-[15px]">
                   {" "}
-                  {userData?.createdBy[0]?.email? userData?.createdBy[0]?.email:"NA"}
+                  {profileData[0]?.createdBy[0]?.email? profileData[0]?.createdBy[0]?.email:"NA"}
                 </p>
               </>
             ) : (

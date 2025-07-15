@@ -251,6 +251,9 @@ const DelAccount = () => {
           },
           config
         );
+          localStorage.removeItem("authToken");
+      localStorage.removeItem("enString");
+      window.location.reload()
       } catch (err) {
         console.error("Failed to delete user:", err);
       }

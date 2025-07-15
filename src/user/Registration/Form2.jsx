@@ -4,7 +4,11 @@ import { setStep, selectStepper } from "../../Stores/slices/Regslice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUser, userDataStore } from "../../Stores/slices/AuthSlice";
-import { convertFeetInchesToInches, convertToFeetInches, convertToFeetInchesDecimal } from "../../common/common.js";
+import {
+  convertFeetInchesToInches,
+  convertToFeetInches,
+  convertToFeetInchesDecimal,
+} from "../../common/common.js";
 
 // import {
 //   setUser,
@@ -24,7 +28,7 @@ import { toast } from "react-toastify";
 import { Autocomplete, TextField } from "@mui/material";
 import {
   setUserAddedbyAdminId,
-  setUserDataAddedbyAdmin
+  setUserDataAddedbyAdmin,
 } from "../../Stores/slices/Admin.jsx";
 import RegError from "../../components/RegError.jsx";
 import { RadioInput } from "../../components/CustomInput.jsx";
@@ -93,7 +97,8 @@ const Form2 = ({ page, stateCheck }) => {
   const handleSliderChange = (name) => (event, newValue) => {
     setFormtwo((log) => ({
       ...log,
-      [name]: name === "height" ? convertToFeetInchesDecimal(newValue) : newValue,
+      [name]:
+        name === "height" ? convertToFeetInchesDecimal(newValue) : newValue,
     }));
   };
   const handleSelectChange = (event, values, field) => {
@@ -353,9 +358,11 @@ const Form2 = ({ page, stateCheck }) => {
             }));
             setCity(mappedCities);
           }
-           if (formData.additionalDetails && formData.additionalDetails.height) {
-                              formData.additionalDetails.height = convertToFeetInches(formData.additionalDetails.height);
-                            }
+          if (formData.additionalDetails && formData.additionalDetails.height) {
+            formData.additionalDetails.height = convertToFeetInches(
+              formData.additionalDetails.height
+            );
+          }
         }
       } catch (error) {
         // console.log(error);
@@ -374,24 +381,23 @@ const Form2 = ({ page, stateCheck }) => {
           <label className="font-semibold mt-2 ">
             {" "}
             {getLabel()} Height
-             <span className="text-primary">*</span>
+            <span className="text-primary">*</span>
           </label>
           <HeightSlider
-           value={convertFeetInchesToInches(formtwo.height)}
+            value={convertFeetInchesToInches(formtwo.height)}
             valueLabelDisplay="auto"
             aria-label="pretto slider"
             defaultValue={20}
             className="mb-12"
-            minValue={48} 
-                  maxValue={84}
-                  step={1}
+            minValue={48}
+            maxValue={84}
+            step={1}
             onChange={handleSliderChange("height")}
             onBlur={handleBlurError}
           />
 
           <label className="font-semibold  ">
-            {getLabel()} Weight ( KGs ) 
-            <span className="text-primary">*</span>
+            {getLabel()} Weight ( KGs )<span className="text-primary">*</span>
           </label>
           <CustomSlider
             value={formtwo.weight}
@@ -427,7 +433,7 @@ const Form2 = ({ page, stateCheck }) => {
               {getLabel()} Presently Setteled in
             </span>
             <p className=" font-DMsans my-2 font-medium ">
-              Country 
+              Country
               {/* <span className="text-primary">*</span> */}
             </p>
             <div className="mt-3">
@@ -648,7 +654,8 @@ const Form2 = ({ page, stateCheck }) => {
               </p>
             )}
             <span className="text-primary text-[13px] font-DMsans absolute top-24">
-             This number will be visible on your profile along with your registered email id for people to connect.
+              This number will be visible on your profile along with your
+              registered email id for people to connect.
             </span>
           </div>
 

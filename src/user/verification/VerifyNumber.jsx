@@ -408,10 +408,19 @@ useEffect(() => {
             //   navigate(`/waiting-or-rejected`);
           } else if (
             existingUser.registrationPage === "6" &&
-            existingUser.registrationPhase === "notapproved"
+            existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus !==
+                "This profile has been deleted. User request for re-approval."
           ) {
             navigate(`/waiting`);
           } else if (
+            existingUser.registrationPage === "6" &&
+            existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus ===
+                "This profile has been deleted. User request for re-approval."
+          ) {
+            navigate(`/reapprove`);
+          }else if (
             existingUser.registrationPage !== "" &&
             existingUser.registrationPhase === "registering"
           ) {
@@ -444,7 +453,6 @@ useEffect(() => {
 
         dispatch(setUser({ userData: { ...userData } }));
         dispatch(setAuthTokenCookie(token));
-        console.log(existingUser, "testing2");
 
         if (existingUser) {
           if (existingUser?.registrationPhase === "rejected") {
@@ -461,10 +469,20 @@ useEffect(() => {
             //   navigate(`/registration-form/1`);
           } else if (
             existingUser.registrationPage === "6" &&
-            existingUser.registrationPhase === "notapproved"
+            existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus !==
+                "This profile has been deleted. User request for re-approval."
           ) {
             navigate(`/waiting`);
-          } else if (
+          } 
+          else if (
+            existingUser.registrationPage === "6" &&
+            existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus ===
+                "This profile has been deleted. User request for re-approval."
+          ) {
+            navigate(`/reapprove`);
+          }else if (
             existingUser.registrationPage !== "" &&
             existingUser.registrationPhase === "registering"
           ) {
@@ -531,7 +549,7 @@ useEffect(() => {
               <RxCross2 />
             </Link>
             <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-              Verify the Email Id
+              Verify Your Email Id
             </p>
             <p className="text-center text-gray-500 text-[14px]">
               <span className="text-[16px]">OTP has been sent on </span>
@@ -587,7 +605,7 @@ useEffect(() => {
               <RxCross2 />
             </Link>
             <p className="text-center font-DMsans text-black font-semibold text-[25px]">
-              Verify the Email Id
+              Verify Your Email Id
             </p>
 
             <div className="flex flex-col justify-center items-start font-DMsans gap-5 mt-5">

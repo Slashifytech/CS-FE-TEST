@@ -111,7 +111,7 @@ const DeletedUserRoutes = () => (
 const DefaultRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/maintainance" element={<Maintanance />} />
+    {/* <Route path="/maintainance" element={<Maintanance />} /> */}
 
     <Route path="/verifying/user/auth" element={<VerificationLoader />} />
 
@@ -135,7 +135,7 @@ const DefaultRoutes = () => (
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/maintainance" element={<Maintanance />} />
+    {/* <Route path="/maintainance" element={<Maintanance />} /> */}
 
     <Route path="admin/dashboard" element={<Dashboard />} />
     <Route path="admin/user" element={<User />} />
@@ -198,7 +198,7 @@ const UserRoutes = ({routeString}) => (
     <Route path="/inreview" element={<ReviewAlert />} />
     <Route path="/verifying/user/auth" element={<VerificationLoader />} />
 
-    <Route path="/maintainance" element={<Maintanance />} />
+    {/* <Route path="/maintainance" element={<Maintanance />} /> */}
 
     <Route path={`/user-dashboard/${routeString}`} element={<ActivityCard />} />
     <Route path="/basic-search" element={<BasicSearch />} />
@@ -228,7 +228,7 @@ const UserRoutes = ({routeString}) => (
     <Route path="/form-submitted" element={<Thankyou />} />
 
     <Route path="/link-verification" element={<VerifyLinkReq />} />
-    <Route path="/updated-registered-number" element={<NumberChangeAlert />} />
+    <Route path="/updated-registered-email" element={<NumberChangeAlert />} />
     <Route path="/deleted-account" element={<DeleteAlert />} />
     {/* <Route path="/reapprove" element={<ReApprove />} /> */}
     <Route path="/waiting" element={<BeforeApprovalPage />} />

@@ -17,7 +17,6 @@ const ProcessSection = React.lazy(() =>
   }))
 );
 const AboutFounder = React.lazy(() =>
-  
   import("../components/HomeAnimation.jsx").then((module) => ({
     default: module.AboutFounder,
   }))
@@ -28,7 +27,6 @@ const HomeAppDownloadSec = React.lazy(() =>
   }))
 );
 
-
 gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const dispatch = useDispatch();
@@ -36,21 +34,21 @@ const Home = () => {
   const waitForRouteStringAndNavigate = () => {
     const checkInterval = setInterval(() => {
       const route = localStorage.getItem("enString");
-      if (route && route.trim() !== "" ) {
+      if (route && route.trim() !== "") {
         clearInterval(checkInterval);
         setTimeout(() => {
           navigate(`/user-dashboard/${route}`);
-        }, 300); 
+        }, 300);
       }
     }, 200);
   };
-  
+
   const navigate = useNavigate();
   const isAuthTokenValid = (action) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       localStorage.removeItem("authToken");
-            localStorage.removeItem("enString");
+      localStorage.removeItem("enString");
 
       navigate("/verify-email", { state: { action } });
       return false;
@@ -62,9 +60,9 @@ const Home = () => {
       const timeDifference = expiryTime - currentTime;
       if (timeDifference <= 0) {
         localStorage.removeItem("authToken");
-              localStorage.removeItem("enString");
+        localStorage.removeItem("enString");
 
-      navigate("/verify-email", { state: { action } });
+        navigate("/verify-email", { state: { action } });
 
         return false;
       }
@@ -72,7 +70,7 @@ const Home = () => {
       return true;
     } catch (error) {
       localStorage.removeItem("authToken");
-            localStorage.removeItem("enString");
+      localStorage.removeItem("enString");
 
       navigate("/verify-email", { state: { action } });
 
@@ -85,7 +83,7 @@ const Home = () => {
   const handleVerify = async (user, action) => {
     try {
       if (!localStorage.getItem("authToken")) {
-      navigate("/verify-email", { state: { action } });
+        navigate("/verify-email", { state: { action } });
       }
       if (!isAuthTokenValid(action) || userData === null) {
         if (user) {
@@ -110,13 +108,21 @@ const Home = () => {
               existingUser.accessType === "0" ||
               existingUser.accessType === "1"
             ) {
-                     waitForRouteStringAndNavigate(); 
-
+              waitForRouteStringAndNavigate();
             } else if (
               existingUser.registrationPage === "6" &&
-              existingUser.registrationPhase === "notapproved"
+              existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus !==
+                "This profile has been deleted. User request for re-approval."
             ) {
               navigate(`/waiting`);
+            } else if (
+              existingUser.registrationPage === "6" &&
+              existingUser.registrationPhase === "notapproved" &&
+              existingUser?.deletedStatus ===
+                "This profile has been deleted. User request for re-approval."
+            ) {
+              navigate(`/reapprove`);
             } else if (
               existingUser.registrationPage !== "" &&
               existingUser.registrationPhase === "registering"
@@ -125,8 +131,7 @@ const Home = () => {
                 state: passPage,
               });
             } else {
-                     waitForRouteStringAndNavigate(); 
-
+              waitForRouteStringAndNavigate();
             }
           } else {
             navigate(`/signup/${num}`);
@@ -147,9 +152,18 @@ const Home = () => {
             navigate(`/admin/dashboard`);
           } else if (
             userData.registrationPage === "6" &&
-            userData.registrationPhase === "notapproved"
+            userData.registrationPhase === "notapproved" &&
+            userData?.deletedStatus !==
+              "This profile has been deleted. User request for re-approval."
           ) {
             navigate(`/waiting`);
+          } else if (
+            userData.registrationPage === "6" &&
+            userData.registrationPhase === "notapproved" &&
+            userData?.deletedStatus ===
+              "This profile has been deleted. User request for re-approval."
+          ) {
+            navigate(`/reapprove`);
           } else if (
             userData.registrationPage !== "" &&
             userData.registrationPhase === "registering"
@@ -158,8 +172,7 @@ const Home = () => {
               state: passPage,
             });
           } else {
-                   waitForRouteStringAndNavigate(); 
-
+            waitForRouteStringAndNavigate();
           }
         }
       }
@@ -227,13 +240,13 @@ const Home = () => {
           <span className="flex justify-end items-center flex-1">
             <span
               className="border-[1px] mx-6 border-[#A92525] p-1 px-3 rounded-lg text-[#A92525] cursor-pointer hover:bg-[#A92525] hover:text-white"
-  onClick={() => handleVerify(null, "signup")}
+              onClick={() => handleVerify(null, "signup")}
             >
               Sign up
             </span>
             <span
               className="background p-[7px] px-5 rounded-xl text-white cursor-pointer"
-  onClick={() => handleVerify(null, "login")}
+              onClick={() => handleVerify(null, "login")}
             >
               Log in
             </span>
@@ -245,7 +258,7 @@ const Home = () => {
 
       <div>
         <span className=" flex  md:flex-row flex-col sm:flex-row relative md:mx-16 mx-6 mb-0 ">
-            <HomeAnimation/>
+          <HomeAnimation />
           <span className="md:mt-36 sm:mt-36 md:absolute  md:right-9  sm:right-0  mb-6">
             <img
               src={heroCircles}
@@ -278,13 +291,13 @@ const Home = () => {
             </p>
             <span className="flex flex-row items-center font-DMsans mt-9 gap-9">
               <span
-  onClick={() => handleVerify(null, "signup")}
+                onClick={() => handleVerify(null, "signup")}
                 className="border popimg border-primary text-primary px-6 py-2 cursor-pointer rounded-lg"
               >
                 Sign up
               </span>
               <span
-  onClick={() => handleVerify(null, "login")}
+                onClick={() => handleVerify(null, "login")}
                 className="px-7 py-[10px] bg-primary text-white cursor-pointer rounded-lg popimg"
               >
                 Log in
@@ -308,9 +321,7 @@ const Home = () => {
 
       {/* //why choose us */}
       <span>
-  
-          <ChooseSection />
-   
+        <ChooseSection />
 
         <Suspense fallback={<span>Loading...</span>}>
           <ProcessSection />
@@ -324,9 +335,8 @@ const Home = () => {
         <Suspense fallback={<span>Loading...</span>}>
           <HomeAppDownloadSec />
         </Suspense>
-     
-          <Footer/>
-     
+
+        <Footer />
       </span>
     </>
   );
