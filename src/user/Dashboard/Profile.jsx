@@ -571,6 +571,7 @@ const Profile = () => {
               profileData={profileData}
               againCallFlag={againCallFlag}
               setAgainCallFlag={setAgainCallFlag}
+              userDetails={userdetails}
             />
           </div>
         </Suspense>

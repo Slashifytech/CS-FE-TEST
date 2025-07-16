@@ -8,7 +8,7 @@ import {
   getCountries,
   getStatesByCountry,
 } from "../../common/commonFunction";
-import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common"
+import { convertFeetInchesToInches, convertToFeetInchesDecimal } from "../../common/common";
 
 import { toast } from "react-toastify";
 import { Autocomplete, TextField } from "@mui/material";
@@ -21,6 +21,7 @@ const PersonalDetail = ({
   setAgainCallFlag,
   againCallFlag,
   location,
+  userDetails
 }) => {
   const dispatch = useDispatch()
   const [personalDatas, setPersonalDatas] = useState([]);
@@ -39,10 +40,10 @@ const PersonalDetail = ({
     contact: "",
     email: "",
     alcohal: "",
-    email: "",
+    // email: "",
   });
   const { country, state } = useSelector((state) => state.masterData);
-  const { userId, userData } = useSelector(userDataStore);
+  const { userId } = useSelector(userDataStore);
   const [states, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -255,8 +256,8 @@ const PersonalDetail = ({
       toast.success(response.data.message);
       setIsOpen((prev) => !prev);
       const responses = await apiurl.get(`/auth/getUser/${userId}`);
-      const userDatas = responses?.data?.user;
-      dispatch(setUser({ userId, userDatas }));
+      const userData = responses?.data?.user;
+      dispatch(setUser({ userId, userData }));
 
     } catch (error) {
       toast.error("An error occurred while submitting form data.");
@@ -274,7 +275,7 @@ const PersonalDetail = ({
     maritalStatus: "Marital Status",
     smoking: "Smoking",
     contact: "Contact",
-    // email: "Email",
+    email: "Email",
     alcohol: "Alcohol",
   };
 
@@ -295,8 +296,8 @@ const PersonalDetail = ({
   // console.log(detailpersonal);
 
   const fetchData = async () => {
-    const userDatas = profileData[1];
-    if (userDatas) {
+    const userData = profileData[1];
+    if (userData) {
       const data = profileData[1];
 
       setDetailPersonal({
@@ -318,8 +319,9 @@ const PersonalDetail = ({
       setPersonalDatas([perosnalData]);
     }
 
-    if (userDatas?.currentlyLivingInCountry) {
-      const countryId = userDatas?.currentlyLivingInCountry;
+
+    if (userData?.currentlyLivingInCountry) {
+      const countryId = userData?.currentlyLivingInCountry;
       const mappedStates = state.map((item) => {
         if (item.country_id === countryId) {
           return {
@@ -330,8 +332,8 @@ const PersonalDetail = ({
       });
       setState(mappedStates);
 
-      if (userDatas?.currentlyLivingInState) {
-        const stateId = userDatas?.currentlyLivingInState;
+      if (userData?.currentlyLivingInState) {
+        const stateId = userData?.currentlyLivingInState;
         const cities = await getCitiesByState(countryId, stateId);
         const mappedCities = cities.map((item) => ({
           cityName: item.city_name,
@@ -469,7 +471,8 @@ const PersonalDetail = ({
                 <p className=" pt-4 font-medium">Email Address</p>
                 <p className="font-light text-[15px]">
                   {" "}
-                  {profileData[0]?.createdBy[0]?.email? profileData[0]?.createdBy[0]?.email:"NA"}
+                  {userDetails?.userData?.createdBy[0]?.email? profileData[0]?.createdBy[0]?.email:"NA"}
+                  {/* {console.log(userDetails)} */}
                 </p>
               </>
             ) : (
