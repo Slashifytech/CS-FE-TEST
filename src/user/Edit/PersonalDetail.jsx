@@ -219,13 +219,12 @@ const PersonalDetail = ({
       errors.contact = "Contact number is required";
       hasErrors = true;
     }
-    // if (
-    //   typeof detailpersonal.email !== "string" ||
-    //   !detailpersonal.email.trim()
-    // ) {
-    //   errors.email = "Email is required";
-    //   hasErrors = true;
-    // }
+    if (
+      typeof detailpersonal.email !== "string" ||
+      !detailpersonal.email.trim()
+    ) {
+      hasErrors = false;
+    }
 
     setFormErrors(errors); // Update the form errors state
     return !hasErrors; // Return true if there are no errors
